@@ -4,7 +4,6 @@
 
 ##Thread application in C
 
-tutorial thread : https://computing.llnl.gov/tutorials/pthreads/
 Principle: Simulation of people moving on a grid and trying to get through an exit.
 
 A person can either move towards the exit or not, but cannot go backwards.
