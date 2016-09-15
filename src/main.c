@@ -26,4 +26,24 @@ main (int argc, char *argv[])
     int nb_thread;
 
   } executing;
+  char c = 0;
+  while ((c = getopt (argc, argv, "m:tp")) != -1){
+    switch(c){
+        case 'm':
+            printf("mesure  ! \n");
+            break;
+        case 'p':
+            printf("nombre de gens %s !\n", optarg);
+            break;
+        case 't':
+            printf("nombre de thread %s\n", optarg);
+            break;
+        default:
+            printf("%c is not an option \n", c);
+            break;
+    
+    }
+  
+  }
+  return 0;
 }
