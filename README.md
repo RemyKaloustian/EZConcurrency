@@ -27,3 +27,23 @@ WHAT REALLY INTERESTS THE TEACHER : SYNCHRONIZATION.
 
 "César: Invariant de boucle " <3
 
+
+####Thursday 15/09/2016
+
+Coding ideas : 
+
+struct person with coordinates
+struct map with matrix
+
+Need an algorithm for map initialization and random person placement.
+
+Need an algorithm for the shortest path (person movement)
+
+Good habits (of César the maxi BG of the death):
+-Modular
+-Makefile
+-indent
+- '_' between words in names
+-#define
+-perror
+
