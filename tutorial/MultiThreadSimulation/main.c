@@ -4,17 +4,15 @@
 #include <inttypes.h>
 #include <unistd.h>
 
-
+#define GRIDSIZE  5
 //THIS PROGRAM TESTS THE DIFFERENT CASES OF THREADS
 
-int grid[5] = {0,1,2,3,4};
+int grid[GRIDSIZE] = {0,1,2,3,4};
 
 void move(int id)
 {
 	printf("Moving  %d \n", id);	
-	
-	
-}
+}//move()
 
 //================ SINGLE THREAD================//
 
@@ -26,13 +24,13 @@ void * one_thread_move()
 {
 	printf("Moving the elements one by one with one thread\n");
 	int i;
-	for (i=0; i<5  ; i++)
+	for (i=0; i<GRIDSIZE  ; i++)
 	{
 		//printf("moving in for");
 		move(grid[i]);
 	}
-	
-}
+	return NULL;
+}//one_thread_move()
 
 //=====================================================
 
@@ -106,15 +104,39 @@ void  four_thread_move()
 		fprintf(stderr, "Error joining thread\n");
 		return 2;
 	}	
-	
-	
-	
-}
+}//four_thread_move()
 
-void * max_thread_move()
+//=====================================================
+
+
+//=================ONE THREAD PER ELEMENT======================
+
+pthread_t all_threads[GRIDSIZE];
+
+void * single_element_move()
 {
-	
-}
+	printf("Moving a single element per Thread \n");
+	return NULL;
+}//single_element_move()
+
+void  max_thread_move()
+{
+	printf("Dispatching a thread per element\n");
+	for (int i = 0; i < GRIDSIZE; i++)
+	{
+		if(pthread_create(&all_threads[i], NULL, &single_element_move,NULL))
+		{
+			
+			fprintf(stderr, "Error creating thread\n");
+			return 1;
+		}
+		if(pthread_join(all_threads[i], NULL)) 
+		{
+			fprintf(stderr, "Error joining thread\n");
+			return 2;
+		}	
+	}	
+}//max_thread_move()
 
 
 int main()
@@ -143,8 +165,10 @@ int main()
 		four_thread_move();
 	}
 	
-	
-
+	if(decision == '2')
+	{
+		max_thread_move();
+	}
 	
 	printf("In the main program");
 	
