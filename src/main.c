@@ -1,20 +1,9 @@
 #include <getopt.h>
 #include <stdio.h>
 #include <time.h>
+#include <math.h>
 #include "../inc/elements.h"
-
-
-
-static struct option long_options[] = {
-  {0, 0, 0, 0}
-};
-
-
-struct execution {
-  int nb_threads;
-  int version;
-  int nb_peaple;
-};
+#include "../inc/launcher_version.h"
 
 // we assume to put opt script on Main function like other Linux's program do.
   /*we need pointer, because arguments for function are by copy in C */
@@ -23,50 +12,50 @@ struct execution {
 int
 main (int argc, char *argv[])
 {
-  struct execution;
+  struct execution execut  ={0, 0 , 0, 0};
   /* iteration on argv with utilisation of get_opt library */
   grid map;
   time_t t_begin;
   char c = 0;
   // nb_threads filled by user with opt -p
-  int version;
-
-  pthread_t * threads;
   // initialisation de la grille
-  init_grid(map, DEFAULT_GRID_WIDTH, DEFAULT_GRID_HEIGHT);
-  while ((c = getopt (argc, argv, "m:tp")) != -1){
+  init_grid(&map, DEFAULT_GRID_WIDTH, DEFAULT_GRID_HEIGHT);
+  while ((c = getopt (argc, argv, "mt:p:")) != -1){
     switch(c){
         case 'm':
-            begin = clock();
+            t_begin = clock();
+            execut.show_time = 1;
             printf("mesure  ! \n");
             break;
         case 'p':
           // filling randomly the grid
-            random_populate_grid(map,atoi(optarg) );
+            random_populate_grid(&map,atoi(optarg) );
+            execut.nb_peaple = pow(2, atoi(optarg));
+            if (!optarg){fprintf(stderr, "-p need a parameter !\n");
+                          exit(0);}
             printf("nombre de gens %s !\n", optarg);
             break;
         case 't':
           // create threads initialization
-            version = atoi(optarg);
-            (version > 1)?()
-            pthread_t tmp_threads[nb_thread];
-            threads = tmp_threads;
+            printf("optarg = %s\n", optarg);
+            if (!optarg){fprintf(stderr, "-t need a parameter !\n");
+                          exit(0);}
+            execut.version = atoi(optarg);
             printf("nombre de thread %s\n", optarg);
             break;
         default:
             printf("%c is not an option \n", c);
             exit(0);
             break;
-
-    }
-
-    for (size_t i = 0; i < nb_thread; i++) {
-      pthread_create(threads[i], NULL, )
-    }
-
+          }
+  }
+  //launch a version with the -t command given by the user
+  launch_version(&execut, &map);
+  // show time taken to the execution of the game.
+  if (execut.show_time){
+    time_t t_end = clock();
+    printf("time : %f \n", (float) (t_end - t_begin)/ CLOCKS_PER_SEC);
   }
 // fin options
-
-
   return 0;
 }

@@ -4,7 +4,8 @@ Author Matthieu BERGER
 
 EZConcurrency Project
 */
-
+#ifndef ELEMENTS_H
+#define ELEMENTS_H
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -21,8 +22,8 @@ EZConcurrency Project
 
 //Cell content type enum
 typedef enum {
-    EMPTY, 
-    WALL, 
+    EMPTY,
+    WALL,
     PERSON
 } cell_content_type;
 
@@ -57,3 +58,5 @@ void add_cell_to_grid(grid* my_grid, int x, int y, cell my_cell);
 void add_walls(grid* my_grid);
 void random_populate_grid(grid* my_grid, int people);
 void move_cell(cell* my_cell);
+
+#endif

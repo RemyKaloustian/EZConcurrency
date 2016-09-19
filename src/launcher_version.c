@@ -1,0 +1,43 @@
+/**
+*
+*launcher functions to load the good version of the game
+* according to the -t option given by user.
+*
+*
+* author : @CésarCollé
+* 19 / 09 / 2016
+***/
+
+#include <stdio.h>
+#include "../inc/elements.h"
+#include "../inc/launcher_version.h"
+#include <pthread.h>
+
+// temporary
+void * run(void * ptr){
+  return NULL;
+}
+
+void launch_version(struct execution * ptr_execut, grid * map){
+  pthread_t threads[4];
+  switch(ptr_execut->version){
+    case 0:
+      // launch version 1
+      break;
+   case 1:
+      // launch version 2
+      for (size_t i = 0; i < ptr_execut->nb_peaple; i++) {
+        pthread_create(&threads[i], NULL, &run, NULL);
+      }
+      break;
+  case 2:
+    // launch version 3
+    break;
+
+
+  }
+
+
+
+
+}
