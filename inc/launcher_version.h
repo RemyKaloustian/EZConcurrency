@@ -16,7 +16,7 @@
 struct execution {
   int nb_threads;
   int version;
-  int nb_peaple;
+  int nb_people;
   int show_time;
 };
 

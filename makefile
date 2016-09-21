@@ -1,7 +1,8 @@
 #############################
 #                           #
-#  Sport game's makefile    #
-#                           #
+#  Sport game's makefile		#
+# author : @CésarCOllé 			#
+#   19/09/2016              #
 #############################
 
 
@@ -18,7 +19,7 @@ $(EXECUTABLE):$(OBJ)
 	$(COMP) $(FLAGS) $(OBJ) -o $(EXECUTABLE)
 
 $(DOBJ)main.o:$(DSRC)main.c
-	$(COMP) $(FLAGS) -c $< -o $@ 
+	$(COMP) $(FLAGS) -c $< -o $@
 
 $(DOBJ)elements.o:$(DSRC)elements.c $(DINC)elements.h
 	$(COMP) $(FLAGS) -c $< -o $@

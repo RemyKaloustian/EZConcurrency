@@ -1,3 +1,13 @@
+/*
+* Sport Game's : Who will be the first ?
+* using property of synchronisation according to
+* the concurrence
+*
+*
+***/
+
+
+
 #include <getopt.h>
 #include <stdio.h>
 #include <time.h>
@@ -8,7 +18,7 @@
 // we assume to put opt script on Main function like other Linux's program do.
   /*we need pointer, because arguments for function are by copy in C */
   /*we will loose space&time without pointer */
-// Mange opt given by user.
+// Manage opt given by user.
 int
 main (int argc, char *argv[])
 {
@@ -30,7 +40,7 @@ main (int argc, char *argv[])
         case 'p':
           // filling randomly the grid
             random_populate_grid(&map,atoi(optarg) );
-            execut.nb_peaple = pow(2, atoi(optarg));
+            execut.nb_people = pow(2, atoi(optarg));
             if (!optarg){fprintf(stderr, "-p need a parameter !\n");
                           exit(0);}
             printf("nombre de gens %s !\n", optarg);

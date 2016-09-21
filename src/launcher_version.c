@@ -17,7 +17,11 @@
 void * run(void * ptr){
   return NULL;
 }
-
+/**
+*throw the version of the game assuming paramater are in the struct execution.
+* param @ptr_execut tne data given by user
+* param @map map of the game
+**/
 void launch_version(struct execution * ptr_execut, grid * map){
   pthread_t threads[4];
   switch(ptr_execut->version){
@@ -26,7 +30,7 @@ void launch_version(struct execution * ptr_execut, grid * map){
       break;
    case 1:
       // launch version 2
-      for (size_t i = 0; i < ptr_execut->nb_peaple; i++) {
+      for (size_t i = 0; i < ptr_execut->nb_people; i++) {
         pthread_create(&threads[i], NULL, &run, NULL);
       }
       break;
