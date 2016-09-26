@@ -33,7 +33,7 @@ int main(int argc, char const *argv[]) {
       t1 = clock();
       fibb(data[t]);
       t2 = clock();
-      printf("\n%f %d\n",
+      printf("%f %d\n",
        (float) (t2 - t1)/ CLOCKS_PER_SEC,data[t]);
   }
   return 0;

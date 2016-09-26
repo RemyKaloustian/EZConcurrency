@@ -12,6 +12,8 @@
 #include "../inc/elements.h"
 #include "../inc/launcher_version.h"
 #include <pthread.h>
+// assuming the number of threads for t1 is 4
+#define NUMBER_THREADS 4
 
 // temporary
 void * run(void * ptr){
@@ -30,9 +32,7 @@ void launch_version(struct execution * ptr_execut, grid * map){
       break;
    case 1:
       // launch version 2
-      for (size_t i = 0; i < ptr_execut->nb_people; i++) {
-        pthread_create(&threads[i], NULL, &run, NULL);
-      }
+      create_threads(ptr_execution);
       break;
   case 2:
     // launch version 3

@@ -35,9 +35,22 @@ int main(int argc, char const *argv[]) {
       1800, 1900, 4900, 18000, 20000
       , 1200, 40000, 12000, 4, 67, 9000,
     20, 124, 89, 5600, 4000, 1200, 8000};
-  for (size_t i = 0; i < N ; i++) {
+	size_t i = 0;
+  for (; i < N/4 ; i++) {
     pthread_create(&threads[i], NULL, run, &data[i]);
   }
+	for (; i < 2*N/4 ; i++) {
+		pthread_create(&threads[i], NULL, run, &data[i]);
+	}
+
+	for (; i < 3*N/4 ; i++) {
+		pthread_create(&threads[i], NULL, run, &data[i]);
+	}
+
+	for (; i < N ; i++) {
+		pthread_create(&threads[i], NULL, run, &data[i]);
+	}
+
   int rc = 0;
   int t = 0;
   void *  status;
