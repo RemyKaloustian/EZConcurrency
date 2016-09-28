@@ -8,7 +8,7 @@
 
 EXECUTABLE=executable.exe
 COMP=gcc
-FLAGS=-Wall -pthread -lm
+FLAGS=-Wall -pthread -lm -std=c99
 DSRC=src/
 DOBJ=obj/
 DINC=inc/
