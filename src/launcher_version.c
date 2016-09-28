@@ -11,6 +11,8 @@
 #include <stdio.h>
 #include "../inc/elements.h"
 #include "../inc/launcher_version.h"
+#include "../inc/threading_part.h"
+
 #include <pthread.h>
 // assuming the number of threads for t1 is 4
 #define NUMBER_THREADS 4
@@ -19,6 +21,7 @@
 void * run(void * ptr){
   return NULL;
 }
+
 /**
 *throw the version of the game assuming paramater are in the struct execution.
 * param @ptr_execut tne data given by user
@@ -32,7 +35,7 @@ void launch_version(struct execution * ptr_execut, grid * map){
       break;
    case 1:
       // launch version 2
-      create_threads(ptr_execution);
+      create_threads(ptr_execut);
       break;
   case 2:
     // launch version 3
