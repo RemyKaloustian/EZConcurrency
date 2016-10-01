@@ -15,6 +15,8 @@
 #include "../inc/elements.h"
 #include "../inc/launcher_version.h"
 
+#define REMYBG
+
 // we assume to put opt script on Main function like other Linux's program do.
   /*we need pointer, because arguments for function are by copy in C */
   /*we will loose space&time without pointer */
@@ -40,7 +42,12 @@ main (int argc, char *argv[])
         case 'p':
           // filling randomly the grid
             random_populate_grid(&map,atoi(optarg) );
-            execut.nb_people = pow(2, atoi(optarg));
+            #ifdef REMYBG
+              execut.nb_people = 128;
+            #endif 
+            #ifndef REMYBG 
+              execut.nb_people = pow(2, atoi(optarg));
+            #endif
             if (!optarg){fprintf(stderr, "-p need a parameter !\n");
                           exit(0);}
             printf("nombre de gens %s !\n", optarg);

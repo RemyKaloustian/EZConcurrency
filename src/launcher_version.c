@@ -28,10 +28,12 @@ void * run(void * ptr){
 * param @map map of the game
 **/
 void launch_version(struct execution * ptr_execut, grid * map){
+  
   pthread_t threads[4];
   switch(ptr_execut->version){
     case 0:
       // launch version 1
+      create_single_thread(map);
       break;
    case 1:
       // launch version 2

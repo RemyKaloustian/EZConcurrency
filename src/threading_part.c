@@ -18,6 +18,8 @@ struct bound {
   cell top_down;
 };
 
+pthread_t single_thread;
+
 
 
 /*
@@ -28,6 +30,22 @@ void manage_partition(struct execution * ptr_execution, int rank ){
 
 
 }
+
+void create_single_thread(grid* map){
+
+  //Creating the single thread
+  if(pthread_create(&single_thread, NULL, move_elem, NULL)){
+    fprintf(stderr, "Error creating thread\n");
+		return 1;
+  }
+
+//Joining the thread
+  if(pthread_join(single_thread, NULL)){
+    fprintf(stderr, "Error joining thread\n");
+		return 1;
+  }
+
+}//create_single_thread()
 
 
 

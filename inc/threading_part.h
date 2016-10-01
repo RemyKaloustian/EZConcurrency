@@ -3,6 +3,7 @@
 
 #include "../inc/launcher_version.h"
 
+void create_single_thread(grid* map);
 void create_threads(struct execution *);
 void manage_partition(struct execution *, int );
 
