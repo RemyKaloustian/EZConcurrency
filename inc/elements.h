@@ -36,18 +36,23 @@ typedef struct {
 } cell;
 
 
-//Grid structure
-typedef struct {
-    int height;
-    int width;
-    cell matrix[DEFAULT_GRID_WIDTH][DEFAULT_GRID_HEIGHT];
-} grid;
 
 //Person structure
 typedef struct {
     int x;
     int y;
+    int height;
+    int width;
 } person;
+
+
+//Grid structure
+typedef struct {
+    int height;
+    int width;
+    cell matrix[DEFAULT_GRID_WIDTH][DEFAULT_GRID_HEIGHT];
+    person * population;
+} grid;
 
 
 void set_x(cell* cell, int x);
