@@ -99,6 +99,15 @@ void random_populate_grid(grid* my_grid, int people){
     
 }
 
+
+//function will be executed by the thread
+void *move_elem()
+{
+	printf("In the thread, moving the elements !!\n");	
+	sleep(1);
+	return NULL; //function must return something
+}
+
 /*
 int main(){
     grid simulation_grid; 
