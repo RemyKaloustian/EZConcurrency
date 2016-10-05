@@ -1,13 +1,13 @@
 #include "../inc/elements.h"
 #include "../inc/launcher_version.h"
 
+
 struct movement{
   struct grid * ptr_grid;
   int left_bound;
   int right_bound;
   int top_bound;
   int bottom_bound;
-
 }
 
 
