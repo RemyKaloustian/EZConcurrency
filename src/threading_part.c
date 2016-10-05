@@ -2,6 +2,7 @@
 #include <pthread.h>
 #include "../inc/elements.h"
 #include "../inc/launcher_version.h"
+#include "../inc/movement.c"
 //#include "../inc/determinism_travel.h"
 
 #define MIDDLE {256, 64, PERSON}
@@ -33,8 +34,10 @@ void manage_partition(struct execution * ptr_execution, int rank ){
 
 void create_single_thread(grid* map){
 
+struct single_movement = {.ptr_grid = map, .left_bound = 0, .right_bound = 512,.top_bound = 0 , .bottom_bound = 128};
+
   //Creating the single thread
-  if(pthread_create(&single_thread, NULL, move_elem, NULL)){
+  if(pthread_create(&single_thread, NULL, automata_movement, &single_movement)){
     fprintf(stderr, "Error creating thread\n");
 		return 1;
   }
