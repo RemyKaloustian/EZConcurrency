@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="CPP_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src/main.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/movement.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/determinism_choice.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/elements.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/threading_part.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/launcher_version.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tutorial/MultiThreadSimulation/main.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tutorial/very basic simple thread/main.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/inc/threading_part.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/inc/elements.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/inc/movement.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/inc/launcher_version.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/test/fibonacci_thread.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/test/fibonacci_without_thread.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/test/assert.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/test/main.c" isTestSource="false" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="Header Search Paths">
+        <CLASSES>
+          <root url="file:///usr/include" />
+          <root url="file:///usr/lib/gcc/x86_64-pc-linux-gnu/6.2.1/include" />
+          <root url="file:///usr/lib/gcc/x86_64-pc-linux-gnu/6.2.1/include-fixed" />
+          <root url="file:///usr/local/include" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file:///usr/include" />
+          <root url="file:///usr/lib/gcc/x86_64-pc-linux-gnu/6.2.1/include" />
+          <root url="file:///usr/lib/gcc/x86_64-pc-linux-gnu/6.2.1/include-fixed" />
+          <root url="file:///usr/local/include" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+  </component>
+</module>

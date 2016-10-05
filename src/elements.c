@@ -77,7 +77,7 @@ add_walls (grid * my_grid)
 }
 
 void
-init_grid (grid * my_grid, int width, int height, int people)
+init_grid (grid * my_grid, int width, int height)
 {
   my_grid->height = height;
   my_grid->width = width;
@@ -152,11 +152,40 @@ move_elem ()
   return NULL;			//function must return something
 }
 
+void affic_grid(grid * map){
+  for (size_t i = 0; i < DEFAULT_GRID_HEIGHT; i++) {
+    for (size_t j = 0; j < DEFAULT_GRID_WIDTH; j++) {
+      switch ( map->matrix[i][j].content) {
+        case EMPTY:
+          putchar('-');
+          break;
+        case WALL:
+          putchar('|');
+          break;
+        case PERSON:
+          putchar('x');
+          break;
+        default :
+          fprintf(stderr, "erreur affichage\n");
+          exit(1);
+      }
+    }
+    putchar("\n");
+  }
+}
+
 /*
 int main(){
     grid simulation_grid;
-    memset(&simulation_grid, 0, sizeof(grid));
+    for (size_t i = 0; i < DEFAULT_GRID_HEIGHT; i++) {
+      memset(simulation_grid.matrix[i], 0,DEFAULT_WALL_WIDTH);
+
+    }
     init_grid(&simulation_grid, DEFAULT_GRID_WIDTH, DEFAULT_GRID_HEIGHT);
+    affic_grid(&simulation_grid);
     random_populate_grid(&simulation_grid, 32);
+    printf("\n\n");
+    affic_grid(&simulation_grid);
     return 0;
-}*/
+}
+*/
