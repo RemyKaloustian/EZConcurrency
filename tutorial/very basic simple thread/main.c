@@ -1,6 +1,6 @@
 #include <pthread.h>
 #include <stdio.h>
-#include	<stdint.h>
+#include <stdint.h>
 #include <inttypes.h>
 #include <unistd.h>
 
