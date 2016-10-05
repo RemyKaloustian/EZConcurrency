@@ -21,6 +21,12 @@ void *  automata_movement(void * ptr_data ){
 //Checking if the person is within the bounds of the thread
     if(is_in_bounds(ptr_data->ptr_grid->population[i], ptr_data)){
       //Move the person
+      //We need the ptr_date cuz we need to check the bounds and the spaces around the current person 
+      //We also need the person coordinates, so we pass the person
+      move_person( ptr_data, ptr_data->ptr_grid->population[i]){
+
+
+      }
 
     }
   }
@@ -36,6 +42,11 @@ int is_in_bounds(struct * person current_person, struct * movement current_movem
   }
 
   return to_return;
-
-
 }//is_in_bounds()
+
+
+void move_person(struct movement * current_movement, struct * person current_person){
+
+//First we check if the place we wanna go is free, if not checking other places.
+//Changing the person coordinates
+}//move_person()
