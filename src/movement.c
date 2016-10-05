@@ -13,7 +13,9 @@ struct movement{
 
 
 
-void *  automata_movement(void * ptr_data ){
+void *  automata_movement(void * param_ptr_data ){
+
+  struct movement * ptr_data = param_ptr_data; 
 
   //going through the list of person
   for(int i = 0; ptr_data->ptr_grid->population  ; ++i){
@@ -34,6 +36,7 @@ void *  automata_movement(void * ptr_data ){
 
 int is_in_bounds(struct * person current_person, struct * movement current_movement){
 
+  
   int to_return = 0;
   if(current_person->x > current_movement->left_bound && current_person->x < current_movement-> right_bound &&
   current_person->y > current_movement->top_bound && current_person->y< current_movement-> bottom_bound ){
