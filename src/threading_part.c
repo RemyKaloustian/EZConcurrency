@@ -13,7 +13,8 @@
 
 
 
-struct bound {
+struct bound
+{
   cell top_right;
   cell top_down;
 };
@@ -26,32 +27,40 @@ pthread_t single_thread;
 *manage the partitionning of the map by the threads
 * Assuming we bouhnd the part of thread on all the map .
 **/
-void manage_partition(struct execution * ptr_execution, int rank ){
+void
+manage_partition (struct execution *ptr_execution, int rank)
+{
 
 
 }
 
-void create_single_thread(grid* map){
+void
+create_single_thread (grid * map)
+{
 
   //Creating the single thread
-  if(pthread_create(&single_thread, NULL, move_elem, NULL)){
-    fprintf(stderr, "Error creating thread\n");
-		return 1;
-  }
+  if (pthread_create (&single_thread, NULL, move_elem, NULL))
+    {
+      fprintf (stderr, "Error creating thread\n");
+      exit(1);
+    }
 
 //Joining the thread
-  if(pthread_join(single_thread, NULL)){
-    fprintf(stderr, "Error joining thread\n");
-		return 1;
-  }
+  if (pthread_join (single_thread, NULL))
+    {
+      fprintf (stderr, "Error joining thread\n");
+      exit(1);
+    }
 
-}//create_single_thread()
-
-
-
+}				//create_single_thread()
 
 
-void create_threads(struct execution * ptr_execution){
+
+
+
+void
+create_threads (struct execution *ptr_execution)
+{
   pthread_t threads[THREADS_MAX];
   //
   // for (size_t i = 0; i < ptr_execution->nb_threads; i++) {

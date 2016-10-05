@@ -18,7 +18,9 @@
 #define NUMBER_THREADS 4
 
 // temporary
-void * run(void * ptr){
+void *
+run (void *ptr)
+{
   return NULL;
 }
 
@@ -27,24 +29,27 @@ void * run(void * ptr){
 * param @ptr_execut tne data given by user
 * param @map map of the game
 **/
-void launch_version(struct execution * ptr_execut, grid * map){
-  
+void
+launch_version (struct execution *ptr_execut, grid * map)
+{
+
   pthread_t threads[4];
-  switch(ptr_execut->version){
+  switch (ptr_execut->version)
+    {
     case 0:
       // launch version 1
-      create_single_thread(map);
+      create_single_thread (map);
       break;
-   case 1:
+    case 1:
       // launch version 2
-      create_threads(ptr_execut);
+      create_threads (ptr_execut);
       break;
-  case 2:
-    // launch version 3
-    break;
+    case 2:
+      // launch version 3
+      break;
 
 
-  }
+    }
 
 
 
