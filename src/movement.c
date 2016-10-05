@@ -8,7 +8,7 @@ struct movement{
   int right_bound;
   int top_bound;
   int bottom_bound;
-}
+};
 
 
 
