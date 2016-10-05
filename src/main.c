@@ -31,6 +31,8 @@ main (int argc, char *argv[])
   char c = 0;
   // nb_threads filled by user with opt -p
   // initialisation de la grille
+  init_grid (&map, DEFAULT_GRID_WIDTH, DEFAULT_GRID_HEIGHT);
+
   while ((c = getopt (argc, argv, "mt:p:")) != -1)
     {
       switch (c)
@@ -73,7 +75,6 @@ main (int argc, char *argv[])
 	  break;
 	}
     }
-  init_grid (&map, DEFAULT_GRID_WIDTH, DEFAULT_GRID_HEIGHT, execut.nb_people);
   //launch a version with the -t command given by the user
   launch_version (&execut, &map);
   // show time taken to the execution of the game.

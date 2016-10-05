@@ -37,5 +37,4 @@ int is_in_bounds(struct * person current_person, struct * movement current_movem
 
   return to_return;
 
-
 }//is_in_bounds()
