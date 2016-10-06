@@ -148,7 +148,7 @@ void *
 move_elem ()
 {
   printf ("In the thread, moving the elements !!\n");
-  sleep (1);
+  //sleep (1);
   return NULL;			//function must return something
 }
 
