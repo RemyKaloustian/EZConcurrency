@@ -30,8 +30,8 @@ $(DOBJ)launcher_version.o:$(DSRC)launcher_version.c $(DINC)launcher_version.h
 $(DOBJ)threading_part.o:$(DSRC)threading_part.c
 	$(COMP) $(FLAGS) -c $< -o $@ -pthread
 
-$(DOBJ)/movement.o:$(DSRC)momvement.c
-	$(COMP) $(FLAGS) -c $< -o $@
+$(DOBJ)/movement.o:$(DSRC)movement.c
+	$(COMP) $(FLAGS) -c $< -o $@ -pthread
 
 
 clean:
