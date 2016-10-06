@@ -25,10 +25,8 @@ void *  automata_movement(void * param_ptr_data ){
       //Move the person
       //We need the ptr_date cuz we need to check the bounds and the spaces around the current person
       //We also need the person coordinates, so we pass the person
-      move_person( ptr_data, ptr_data->ptr_grid->population[i]){
+      move_person( ptr_data, ptr_data->ptr_grid->population[i]);
 
-
-      }
 
     }
   }
