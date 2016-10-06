@@ -58,8 +58,6 @@ void make_choice(enum Direction *choice, person *current) {
 int is_done(person *persons, int nb) {
     for (int i = 0; i < nb; ++i) {
         if (persons[i].current_status == AVAILABLE) {
-
-            printf("CONTINUE ! \n");
             return 1;
         }
     }
@@ -80,33 +78,38 @@ int check_done(grid * grid, person * p){
 void *automata_movement(void *param_ptr_data) {
 
     struct movement *ptr_data = param_ptr_data;
+    printf("bound  = %d %d %d %d\n", ptr_data->left_bound, ptr_data->right_bound, ptr_data->top_bound, ptr_data->bottom_bound);
     int cpt = 0;
     //going through the list of person
     printf("%d %d \n", ptr_data->ptr_grid->population[0].x, ptr_data->ptr_grid->population[1].x);
 
     while (is_done(ptr_data->ptr_grid->population, ptr_data->ptr_grid->people)) {
-        printf("\n ITERATION !!!!!\n");
         for (int i = 0; i < ptr_data->ptr_grid->people; ++i) {
             if (is_in_bounds(&ptr_data->ptr_grid->population[i], ptr_data)) {
+                printf("is bounded for me : %d %d \n", ptr_data->ptr_grid->population[i].x,ptr_data->ptr_grid->population[i].y);
                 //Move the person
                 //We need the ptr_date cuz we need to check the bounds and the spaces around the current person
                 //We also need the person coordinates, so we pass the person
 
                 move_person(ptr_data, &ptr_data->ptr_grid->population[i]);
-                if (!check_done(ptr_data->ptr_grid, &ptr_data->ptr_grid->population[i]))
+
+                if (!check_done(ptr_data->ptr_grid, &ptr_data->ptr_grid->population[i])) {
                     draw_entity(ptr_data->ptr_grid, ptr_data->ptr_grid->population[i].x,
-                            ptr_data->ptr_grid->population[i].y);
+                                ptr_data->ptr_grid->population[i].y);
+                }
 
-                
-                printf("after move x = %d y = %d\n",
-                       ptr_data->ptr_grid->population[i].x, ptr_data->ptr_grid->population[i].y);
+//                ptr_data->ptr_grid->population[i].x, ptr_data->ptr_grid->population[i].y;
 
+            }
+            else{
+                printf("no \n");
             }
             //sleep(1);
 
         }
         if (cpt++ == 150){
-            exit(1);
+            printf("Fin threads \n");
+            //return NULL;
         }
 
         //affic_grid(ptr_data->ptr_grid);
@@ -114,7 +117,6 @@ void *automata_movement(void *param_ptr_data) {
     }
     affic_grid(ptr_data->ptr_grid);
     printf("END AUTOMATE\n\n\n");
-    exit(0);
     return NULL;
 }//automata_movement()
 

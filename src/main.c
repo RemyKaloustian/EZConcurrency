@@ -59,7 +59,7 @@ main(int argc, char *argv[]) {
                     fprintf(stderr, "-t need a parameter !\n");
                     exit(0);
                 }
-                execut.version = 0;//atoi(optarg);
+                execut.version = atoi(optarg);
                 printf("nombre de thread %s\n", optarg);
                 break;
             default:

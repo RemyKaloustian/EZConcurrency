@@ -62,12 +62,31 @@ struct movement single_movement = {map,  0, 512, 0 , 128};
 
 
 void
-create_threads (struct execution *ptr_execution)
+create_threads (grid * map)
 {
+    printf("In create_threads()\n");
   pthread_t threads[THREADS_MAX];
-  //
-  // for (size_t i = 0; i < ptr_execution->nb_threads; i++) {
-  //   pthread_create(&threads[i], NULL, run, ptr_execution);
-  // }
+    memset(threads, 0, THREADS_MAX);
+    struct movement movements[THREADS_MAX] = {{map,  0, 256, 0, 64}, {map, 256, 512, 0, 64}, {map, 0, 256, 64, 128}, {map, 256, 512, 64, 128}};
+
+   for (size_t i = 0; i < THREADS_MAX; i++) {
+
+       if(pthread_create(&threads[i], NULL, automata_movement, &movements[i])){
+           fprintf(stderr, "Error creating thread\n");
+           exit(1);
+       }
+   }
+    void * status;
+    printf("fin creation thread  \n");
+    for (size_t j = 0; j < THREADS_MAX; ++j) {
+        if(pthread_join(threads[j], status))
+        {
+            fprintf (stderr, "Error joining thread\n");
+            exit(5);
+        }
+    }
+    printf("\n Final  : \n");
+    affic_grid(map);
+
 
 }
