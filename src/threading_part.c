@@ -2,7 +2,8 @@
 #include <pthread.h>
 #include "../inc/elements.h"
 #include "../inc/launcher_version.h"
-#include "../inc/movement.c"
+#include "../inc/automata_movement.h"
+//#include "../inc/movement.c"
 //#include "../inc/determinism_travel.h"
 
 #define MIDDLE {256, 64, PERSON}

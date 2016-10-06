@@ -3,7 +3,7 @@
 
 
 struct movement{
-  struct grid * ptr_grid;
+  grid * ptr_grid;
   int left_bound;
   int right_bound;
   int top_bound;
@@ -32,7 +32,7 @@ void *  automata_movement(void * param_ptr_data ){
   }
 }//automata_movement()
 
-int is_in_bounds(struct * person current_person, struct * movement current_movement){
+int is_in_bounds(struct  person *current_person, struct movement  * current_movement){
 
   
   int to_return = 0;
@@ -46,7 +46,7 @@ int is_in_bounds(struct * person current_person, struct * movement current_movem
 }//is_in_bounds()
 
 
-void move_person(struct movement * current_movement, struct * person current_person){
+void move_person(struct movement * current_movement, struct person * current_person){
 
 //First we check if the place we wanna go is free, if not checking other places.
 //Changing the person coordinates

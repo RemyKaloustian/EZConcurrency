@@ -64,7 +64,7 @@ void add_cell_to_grid(grid* my_grid, int x, int y, cell my_cell);
 void add_walls(grid* my_grid);
 void random_populate_grid(grid* my_grid, int people);
 void move_cell(cell* my_cell);
-
+void affic_grid(grid *);
 void * move_elem();
 
 #endif
