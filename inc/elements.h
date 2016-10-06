@@ -18,7 +18,7 @@ EZConcurrency Project
 #define DEFAULT_EXIT_HEIGHT_WALL_2      16
 #define DEFAULT_WALL_1_X                0
 #define DEFAULT_WALL_2_X                111
-#define DEFAULT_PEOPLE_SIZE             2
+#define DEFAULT_PEOPLE_SIZE             4
 
 
 //Cell content type enum

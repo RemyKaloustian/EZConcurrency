@@ -2,6 +2,8 @@
 #include "../inc/launcher_version.h"
 #include "../inc/movement.h"
 
+#define MIN_FINAL_X 60
+#define MAX_FINAL_X 67
 
 
 
@@ -26,20 +28,46 @@ void *  automata_movement(void * param_ptr_data ){
 
 int is_in_bounds( person *current_person, struct movement  * current_movement){
 
-  
-  int to_return = 0;
-  if(current_person->x > current_movement->left_bound && current_person->x < current_movement-> right_bound &&
-  current_person->y > current_movement->top_bound && current_person->y< current_movement-> bottom_bound ){
+return (current_person->x > current_movement->left_bound && current_person->x < current_movement-> right_bound &&
+  current_person->y > current_movement->top_bound && current_person->y< current_movement-> bottom_bound )
     //The person is on the right chunk of the map
-    to_return = 1;
-  }
+    }//is_in_bounds()
 
-  return to_return;
-}//is_in_bounds()
+
+int check_down(grid * map, int x, int y ){
+  int line = y + DEFAULT_PEOPLE_SIZE;
+  for (int j = x; j < x - DEFAULT_PEOPLE_SIZE; j--){
+    if (map->matrix[line][j].content){
+      return -1;
+    }
+  }
+  return 1;
+}
+
+int check_up(grid * map, int x, int y ){
+  if ()
+  for (int j = y; j < y - DEFAULT_PEOPLE_SIZE; j--){
+    if (map->matrix[x][j].content){
+      return -1;
+    }
+  }
+  return 1;
+}
 
 
 void move_person( struct movement * current_movement,  person * current_person){
 
+
+if(current_person->y < MIN_FINAL_X && current_movement->ptr_grid->matrix[current_person->x][current_person->y+1]->){
+
+}
+else if(current_person->y > MAX_FINAL_X){
+
+}
+
+else {
+
+}
 //First we check if the place we wanna go is free, if not checking other places.
 //Changing the person coordinates
 }//move_person()
