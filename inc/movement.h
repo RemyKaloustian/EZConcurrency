@@ -20,5 +20,4 @@ void move_person(struct movement * current_movement, person *current_person);
 
 
 
-
 #endif

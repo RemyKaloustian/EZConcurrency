@@ -42,6 +42,7 @@ create_single_thread (grid * map)
 struct movement single_movement = {map,  0, 512, 0 , 128};
 
   //Creating the single thread
+    printf("creation thread\n");
   if(pthread_create(&single_thread, NULL, automata_movement, &single_movement)){
     fprintf(stderr, "Error creating thread\n");
 		exit(1);

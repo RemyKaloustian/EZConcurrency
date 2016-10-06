@@ -50,8 +50,9 @@ typedef struct {
 typedef struct {
     int height;
     int width;
-    cell matrix[DEFAULT_GRID_WIDTH][DEFAULT_GRID_HEIGHT];
+    cell matrix[DEFAULT_GRID_HEIGHT][DEFAULT_GRID_WIDTH];
     person * population;
+    int people;
 } grid;
 
 
@@ -66,5 +67,7 @@ void random_populate_grid(grid* my_grid, int people);
 void move_cell(cell* my_cell);
 void affic_grid(grid *);
 void * move_elem();
+void delete_entity(grid *map, int x, int y);
+void draw_entity(grid *map, int x, int y);
 
 #endif

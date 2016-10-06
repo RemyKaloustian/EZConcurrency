@@ -32,7 +32,7 @@ run (void *ptr)
 void
 launch_version (struct execution *ptr_execut, grid * map)
 {
-
+  map->people = ptr_execut->nb_people;
   pthread_t threads[4];
   switch (ptr_execut->version)
     {

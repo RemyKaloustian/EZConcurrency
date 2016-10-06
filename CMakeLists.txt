@@ -3,6 +3,8 @@ project(EZConcurrency)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
+
+
 set(SOURCE_FILES
     inc/elements.h
     inc/launcher_version.h
@@ -14,11 +16,10 @@ set(SOURCE_FILES
     src/main.c
     src/movement.c
     src/threading_part.c
-    test/assert.h
-    test/fibonacci_thread.c
-    test/fibonacci_without_thread.c
-    test/main.c
-    tutorial/MultiThreadSimulation/main.c
-    "tutorial/very basic simple thread/main.c")
+    )
 
 add_executable(EZConcurrency ${SOURCE_FILES})
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+#target_link_libraries (EZConcurrency MathFunction)
+target_link_libraries(EZConcurrency Threads::Threads)
