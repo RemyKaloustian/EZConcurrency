@@ -50,28 +50,6 @@ void delete_entity(grid *map, int x, int y) {
 
 void
 add_walls(grid *my_grid) {
-    //First WALL
-    /*for (int x = DEFAULT_WALL_1_X; x < DEFAULT_WALL_WIDTH; x++) {
-        for (int y = 0; y < my_grid->height; y++) {
-            // exit
-            if (y < (my_grid->height / 2) - (DEFAULT_EXIT_HEIGHT_WALL_1 / 2)
-                || y >=
-                   (my_grid->height / 2) + (DEFAULT_EXIT_HEIGHT_WALL_1 / 2)) {
-                my_grid->matrix[x][y].content = WALL;
-            }
-        }
-    }
-    //Second WALL
-    for (int x = 0; x < DEFAULT_WALL_WIDTH; x++) {
-        for (int y = 0; y < my_grid->height; y++) {
-            // exit
-            if (y < (my_grid->height / 2) - (DEFAULT_EXIT_HEIGHT_WALL_2 / 2)
-                || y >=
-                   (my_grid->height / 2) + (DEFAULT_EXIT_HEIGHT_WALL_2 / 2)) {
-                my_grid->matrix[x + DEFAULT_WALL_2_X][y].content = WALL;
-            }
-        }
-    }*/
     // creation 1st wall
     int cpt = 0;
     int cpt1 = 0;
@@ -146,7 +124,7 @@ random_populate_grid(grid *my_grid, int people) {
     my_grid->population = calloc(people, sizeof(person));
     printf("random \n");
     //printf("minx:%d, maxx:%d, miny:%d maxY:%d", min_x, max_x, min_y, max_y);
-    int tab[4] = {21, 3, 21,100 };
+    int tab[4] = {19, 3, 19,100 };
     //for (int i = 0; i < people; i++) {
         //x = rand() % (max_x - min_x + 1) + min_x;
         //y = rand() % (max_y - min_y + 1) + min_y;
@@ -155,8 +133,12 @@ random_populate_grid(grid *my_grid, int people) {
     //}
     my_grid->population[0].x = tab[0];
     my_grid->population[0].y = tab[1];
+    my_grid->population[0].current_status = AVAILABLE;
+
     my_grid->population[1].x = tab[2];
     my_grid->population[1].y = tab[3];
+    my_grid->population[1].current_status = AVAILABLE;
+
     draw_entity(my_grid,tab[0], tab[1]);
     draw_entity(my_grid,tab[2], tab[3]);
 

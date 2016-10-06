@@ -20,6 +20,11 @@ EZConcurrency Project
 #define DEFAULT_WALL_2_X                111
 #define DEFAULT_PEOPLE_SIZE             4
 
+enum status{
+    DONE,
+    AVAILABLE
+};
+
 
 //Cell content type enum
 typedef enum {
@@ -43,6 +48,7 @@ typedef struct {
     int y;
     int height;
     int width;
+    enum status current_status ;
 } person;
 
 
