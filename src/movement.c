@@ -46,7 +46,7 @@ int is_in_bounds(struct * person current_person, struct * movement current_movem
 }//is_in_bounds()
 
 
-void move_person(struct movement * current_movement, struct * person current_person){
+void move_person( movement * current_movement,   person * current_person){
 
 //First we check if the place we wanna go is free, if not checking other places.
 //Changing the person coordinates
