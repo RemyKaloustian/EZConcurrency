@@ -2,10 +2,8 @@
 #include "../inc/launcher_version.h"
 #include "../inc/movement.h"
 #include <string.h>
-
 #include <unistd.h>
-
-
+#include <pthread.h>
 
 #define MIN_FINAL_Y 60
 #define MAX_FINAL_Y 67
@@ -28,18 +26,15 @@ enum Direction {
 
 void make_choice(enum Direction *choice, person *current) {
     int y = current->y;
-    if (y <= MIN_FINAL_Y) {
-        printf("y <= MIN_FINAL_Y)\n");
+    if (y < MIN_FINAL_Y) {
         choice[0] = SO;
         choice[1] = O;
         choice[2] = S;
-    } else if (y >= MAX_FINAL_Y) {
-        printf("(y >= MAX_FINAL_Y) \n");
+    } else if (y > MAX_FINAL_Y) {
         choice[0] = NO;
         choice[1] = O;
         choice[2] = N;
     } else {
-        printf("else : %d \n", y - DEFAULT_GRID_HEIGHT / 2);
         choice[0] = O;
         if ( (y - DEFAULT_GRID_HEIGHT / 2) < 0 ){
             choice[1] = S;
@@ -65,10 +60,11 @@ int is_done(person *persons, int nb) {
 }
 
 int check_done(grid * grid, person * p){
-    //if(is_in_bounds(p, &final)){
-    if (p->x <= 15){
+    if (p->x <= 15 ){
         p->current_status = DONE;
+        printf("it's over for you \n");
         delete_entity(grid, p->x, p->y);
+        //affic_grid(grid);
         return 1;
     }
     return 0;
@@ -76,54 +72,56 @@ int check_done(grid * grid, person * p){
 
 
 void *automata_movement(void *param_ptr_data) {
-
+    printf("AUTOMATA !! \n");
     struct movement *ptr_data = param_ptr_data;
-    printf("bound  = %d %d %d %d\n", ptr_data->left_bound, ptr_data->right_bound, ptr_data->top_bound, ptr_data->bottom_bound);
     int cpt = 0;
     //going through the list of person
     printf("%d %d \n", ptr_data->ptr_grid->population[0].x, ptr_data->ptr_grid->population[1].x);
 
     while (is_done(ptr_data->ptr_grid->population, ptr_data->ptr_grid->people)) {
         for (int i = 0; i < ptr_data->ptr_grid->people; ++i) {
+            printf("thread with bound  = %d %d %d %d ", ptr_data->left_bound, ptr_data->right_bound, ptr_data->top_bound, ptr_data->bottom_bound);
             if (is_in_bounds(&ptr_data->ptr_grid->population[i], ptr_data)) {
-                printf("is bounded for me : %d %d \n", ptr_data->ptr_grid->population[i].x,ptr_data->ptr_grid->population[i].y);
+                printf("process : %d %d cpt = %d\n", ptr_data->ptr_grid->population[i].x,ptr_data->ptr_grid->population[i].y, cpt);
                 //Move the person
                 //We need the ptr_date cuz we need to check the bounds and the spaces around the current person
                 //We also need the person coordinates, so we pass the person
 
-                move_person(ptr_data, &ptr_data->ptr_grid->population[i]);
+                if (ptr_data->ptr_grid->population[i].current_status != DONE){
+                    move_person(ptr_data, &ptr_data->ptr_grid->population[i]);
+                    printf("moved to  : %d %d \n", ptr_data->ptr_grid->population[i].x,ptr_data->ptr_grid->population[i].y);
+                    if (!check_done(ptr_data->ptr_grid, &ptr_data->ptr_grid->population[i])) {
 
-                if (!check_done(ptr_data->ptr_grid, &ptr_data->ptr_grid->population[i])) {
-                    draw_entity(ptr_data->ptr_grid, ptr_data->ptr_grid->population[i].x,
-                                ptr_data->ptr_grid->population[i].y);
+                        draw_entity(ptr_data->ptr_grid, ptr_data->ptr_grid->population[i].x,
+                                    ptr_data->ptr_grid->population[i].y);
+                    }
                 }
 
-//                ptr_data->ptr_grid->population[i].x, ptr_data->ptr_grid->population[i].y;
+                else{
+                    printf("il a finis \n");
+                }
 
             }
             else{
-                printf("no \n");
+                printf("no process \n");
             }
-            //sleep(1);
 
         }
-        if (cpt++ == 150){
-            printf("Fin threads \n");
-            //return NULL;
-        }
-
         //affic_grid(ptr_data->ptr_grid);
-
+        if (cpt++ == 120){
+            printf("end analys\n");
+            break;
+        }
     }
-    affic_grid(ptr_data->ptr_grid);
-    printf("END AUTOMATE\n\n\n");
+    //affic_grid(ptr_data->ptr_grid);
+    printf("END AUTOMATE\n\n");
     return NULL;
 }//automata_movement()
 
 int is_in_bounds(person *current_person, struct movement *current_movement) {
 
-    return current_person->x > current_movement->left_bound && current_person->x < current_movement->right_bound &&
-           current_person->y > current_movement->top_bound && current_person->y < current_movement->bottom_bound;
+    return current_person->x >= current_movement->left_bound && current_person->x <= current_movement->right_bound &&
+           current_person->y >= current_movement->top_bound && current_person->y <= current_movement->bottom_bound;
     //The person is on the right chunk of the map
 }//is_in_bounds()
 

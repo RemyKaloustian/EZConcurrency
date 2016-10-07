@@ -28,12 +28,6 @@ pthread_t single_thread;
 *manage the partitionning of the map by the threads
 * Assuming we bouhnd the part of thread on all the map .
 **/
-void
-manage_partition (struct execution *ptr_execution, int rank)
-{
-
-
-}
 
 void
 create_single_thread (grid * map)
@@ -54,7 +48,7 @@ struct movement single_movement = {map,  0, 512, 0 , 128};
       fprintf (stderr, "Error joining thread\n");
       exit(1);
     }
-
+    affic_grid(map);
 }				//create_single_thread()
 
 
@@ -70,23 +64,22 @@ create_threads (grid * map)
     struct movement movements[THREADS_MAX] = {{map,  0, 256, 0, 64}, {map, 256, 512, 0, 64}, {map, 0, 256, 64, 128}, {map, 256, 512, 64, 128}};
 
    for (size_t i = 0; i < THREADS_MAX; i++) {
-
+        printf("create %d threads \n", i);
        if(pthread_create(&threads[i], NULL, automata_movement, &movements[i])){
            fprintf(stderr, "Error creating thread\n");
            exit(1);
        }
    }
-    void * status;
+//    void * status;
     printf("fin creation thread  \n");
     for (size_t j = 0; j < THREADS_MAX; ++j) {
-        if(pthread_join(threads[j], status))
+        printf("join %d  thread \n", j);
+        if(pthread_join(threads[j], NULL))
         {
-            fprintf (stderr, "Error joining thread\n");
+            fprintf (stderr, "Error joining thread \n");
             exit(5);
         }
     }
     printf("\n Final  : \n");
     affic_grid(map);
-
-
 }

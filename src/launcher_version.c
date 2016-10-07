@@ -34,6 +34,7 @@ launch_version (struct execution *ptr_execut, grid * map)
 {
   map->people = ptr_execut->nb_people;
   pthread_t threads[4];
+    printf("we launch version : %d\n", ptr_execut->version);
   switch (ptr_execut->version)
     {
     case 0:

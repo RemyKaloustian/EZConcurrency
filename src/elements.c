@@ -29,7 +29,6 @@ add_cell_to_grid(grid *my_grid, int x, int y, cell my_cell) {
 }
 
 void draw_entity(grid *map, int x, int y) {
-    printf("desgin ! x = %d , y = %d\n", x, y);
     for (int i = y; i < y + DEFAULT_PEOPLE_SIZE; i++) {
         for (int j = x; j > x - DEFAULT_PEOPLE_SIZE; j--) {
             map->matrix[i][j].content = PERSON;
@@ -39,7 +38,6 @@ void draw_entity(grid *map, int x, int y) {
 }
 
 void delete_entity(grid *map, int x, int y) {
-    printf("desgin ! x = %d , y = %d\n", x, y);
     for (int i = y; i < y + DEFAULT_PEOPLE_SIZE; i++) {
         for (int j = x; j > x - DEFAULT_PEOPLE_SIZE; j--) {
             map->matrix[i][j].content = EMPTY;
