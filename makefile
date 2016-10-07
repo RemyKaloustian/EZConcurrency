@@ -1,7 +1,7 @@
 #############################
 #                           #
-#  Sport game's makefile		#
-# author : @CésarCOllé 			#
+#  Sport game's makefile	#
+# author : @CésarCOllé 		#
 #   19/09/2016              #
 #############################
 
@@ -13,7 +13,7 @@ DSRC=src/
 DOBJ=obj/
 DINC=inc/
 
-OBJ=$(DOBJ)elements.o $(DOBJ)main.o $(DOBJ)launcher_version.o $(DOBJ)threading_part.o $(DOBJ)/movement.o
+OBJ=$(DOBJ)elements.o $(DOBJ)main.o $(DOBJ)launcher_version.o $(DOBJ)threading_part.o $(DOBJ)/movement.o $(DOBJ)multiple_threads.o
 
 $(EXECUTABLE):$(OBJ)
 	$(COMP) $(FLAGS) $(OBJ) -o $(EXECUTABLE)
@@ -31,6 +31,9 @@ $(DOBJ)threading_part.o:$(DSRC)threading_part.c
 	$(COMP) $(FLAGS) -c $< -o $@ -pthread
 
 $(DOBJ)/movement.o:$(DSRC)movement.c
+	$(COMP) $(FLAGS) -c $< -o $@ -pthread
+
+$(DOBJ)multiple_threads.o: $(DSR)multiple_threads.c
 	$(COMP) $(FLAGS) -c $< -o $@ -pthread
 
 

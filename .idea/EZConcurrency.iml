@@ -3,14 +3,16 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src/determinism_choice.c" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/main.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/movement.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/multiple_threads.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/launcher_version.c" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/elements.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/inc/multiple_threads.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/threading_part.c" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/inc/threading_part.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/inc/elements.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/inc/movement.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/inc/threading_part.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/inc/launcher_version.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
     </content>

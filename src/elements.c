@@ -1,6 +1,6 @@
 #include "../inc/elements.h"
 
-
+ /*
 void
 set_x(cell *my_cell, int x) {
     my_cell->x = x;
@@ -10,6 +10,7 @@ void
 set_y(cell *my_cell, int y) {
     my_cell->y = y;
 }
+ */
 
 void
 set_cell_content(cell *my_cell, cell_content_type content) {
@@ -122,14 +123,45 @@ random_populate_grid(grid *my_grid, int people) {
     my_grid->population = calloc(people, sizeof(person));
     printf("random \n");
     //printf("minx:%d, maxx:%d, miny:%d maxY:%d", min_x, max_x, min_y, max_y);
-    int tab[4] = {19, 3, 19,100 };
+    int tab[13] = {0, 19, 3, 19,100,200, 9, 180, 60, 170, 100, 128,64 };
     //for (int i = 0; i < people; i++) {
         //x = rand() % (max_x - min_x + 1) + min_x;
         //y = rand() % (max_y - min_y + 1) + min_y;
         // printf("draw entity \n");
        // drawn_entity(my_grid, x, y);
     //}
-    my_grid->population[0].x = tab[0];
+
+        my_grid->population[0].x = tab[1];
+        my_grid->population[0].y = tab[2];
+        my_grid->population[0].current_status = AVAILABLE;
+    my_grid->population[1].x = tab[3];
+    my_grid->population[1].y = tab[4];
+    my_grid->population[1].current_status = AVAILABLE;
+  /*  my_grid->population[2].x = tab[5];
+    my_grid->population[2].y = tab[6];
+    my_grid->population[2].current_status = AVAILABLE;
+    my_grid->population[3].x = tab[7];
+    my_grid->population[3].y = tab[8];
+    my_grid->population[3].current_status = AVAILABLE;
+    my_grid->population[4].x = tab[9];
+    my_grid->population[4].y = tab[10];
+    my_grid->population[4].current_status = AVAILABLE;
+    my_grid->population[5].x = tab[11];
+    my_grid->population[5].y = tab[12];
+    my_grid->population[5].current_status = AVAILABLE;*/
+
+
+    draw_entity(my_grid,tab[1], tab[2]);
+    draw_entity(my_grid,tab[3], tab[4]);
+
+    /*draw_entity(my_grid,tab[5], tab[6]);
+    draw_entity(my_grid,tab[7], tab[8]);
+    draw_entity(my_grid,tab[9], tab[10]);
+    draw_entity(my_grid,tab[11], tab[12]);*/
+
+        //draw_entity(my_grid,tab[2], tab[3]);
+
+/*    my_grid->population[0].x = tab[0];
     my_grid->population[0].y = tab[1];
     my_grid->population[0].current_status = AVAILABLE;
 
@@ -137,8 +169,7 @@ random_populate_grid(grid *my_grid, int people) {
     my_grid->population[1].y = tab[3];
     my_grid->population[1].current_status = AVAILABLE;
 
-    draw_entity(my_grid,tab[0], tab[1]);
-    draw_entity(my_grid,tab[2], tab[3]);
+*/
 
     printf("fin \n\n\n");
     affic_grid(my_grid);

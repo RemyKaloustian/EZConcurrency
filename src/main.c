@@ -44,13 +44,13 @@ main(int argc, char *argv[]) {
                 // filling randomly the grid
                // random_populate_grid(&map, atoi(optarg));
                 printf("-p OK \n");
-                random_populate_grid(&map, 2);
                 execut.nb_people = 2; //pow (2, atoi (optarg));
+                random_populate_grid(&map, execut.nb_people);
+
                 if (!optarg) {
                     fprintf(stderr, "-p need a parameter !\n");
                     exit(0);
                 }
-                printf("nombre de gens %s !\n", optarg);
                 break;
             case 't':
                 // create threads initialization

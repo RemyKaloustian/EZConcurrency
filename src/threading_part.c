@@ -4,6 +4,7 @@
 #include "../inc/launcher_version.h"
 #include "../inc/movement.h"
 //#include "../inc/determinism_travel.h"
+#include "../inc/multiple_threads.h"
 
 #define MIDDLE {256, 64, PERSON}
 #define TOP_RIGHT_CORNER {{DEFAULT_GRID_WIDTH, 0}, MIDDLE}}
@@ -82,4 +83,35 @@ create_threads (grid * map)
     }
     printf("\n Final  : \n");
     affic_grid(map);
+}
+
+
+
+void multiple_threads(grid * map){
+    printf("Multiple threads %d ! \n", map->people);
+    int size_threads = map->people;
+    pthread_t pthreads[size_threads];
+
+    struct multiple_movement *move;
+    memset(pthreads, 0, size_threads);
+    for (int i = 0; i <size_threads; ++i) {
+        printf("boucle creation thread i = : %d\n", i);
+        move = calloc(1, sizeof(struct multiple_movement));
+        move->map = map;
+        move->rank = i;
+        printf("je met : %p\n", &move);
+        if ( pthread_create(&pthreads[i], NULL, multiple_movement, move)) {
+            fprintf(stderr, "error creating multiple threads");
+            exit(0);
+        }
+    }
+    for (size_t j = 0; j < size_threads; ++j) {
+        if(pthread_join(pthreads[j], NULL))
+        {
+            fprintf (stderr, "Error joining thread \n");
+            exit(5);
+        }
+    }
+    affic_grid(map);
+
 }

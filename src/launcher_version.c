@@ -46,6 +46,7 @@ launch_version (struct execution *ptr_execut, grid * map)
       create_threads (map);
       break;
     case 2:
+        multiple_threads(map);
       // launch version 3
       break;
 
