@@ -1,5 +1,5 @@
 #include "../inc/elements.h"
-#include "../inc/launcher_version.h"
+#include "../inc/designer.h"
 #include "../inc/movement.h"
 #include <string.h>
 #include <unistd.h>
@@ -60,7 +60,6 @@ int is_done(person *persons, int nb) {
 int check_done(grid *grid, person *p) {
     if (p->x <= X_FINAL) {
         p->current_status = DONE;
-        printf("it's over for you \n");
         delete_entity(grid, p->x, p->y);
         //affic_grid(grid);
         return 1;
@@ -71,11 +70,9 @@ int check_done(grid *grid, person *p) {
 
 void *automata_movement(void *param_ptr_data) {
     struct movement *ptr_data = param_ptr_data;
-    printf("AUTOMATA !! pepople : %d\n",ptr_data->ptr_grid->people);
 
     int cpt = 0;
     //going through the list of person
-    printf("%d %d \n", ptr_data->ptr_grid->population[0].x, ptr_data->ptr_grid->population[1].x);
 
     while (is_done(ptr_data->ptr_grid->population, ptr_data->ptr_grid->people)) {
         for (int i = 0; i < ptr_data->ptr_grid->people; ++i) {
@@ -85,13 +82,11 @@ void *automata_movement(void *param_ptr_data) {
                 && ptr_data->ptr_grid->population[i].current_status != DONE) {
 
 
-                printf("process : %d %d \n", ptr_data->ptr_grid->population[i].x, ptr_data->ptr_grid->population[i].y);
                 //Move the person
                 //We need the ptr_date cuz we need to check the bounds and the spaces around the current person
                 //We also need the person coordinates, so we pass the person
                 move_person(ptr_data->ptr_grid, &ptr_data->ptr_grid->population[i]);
 
-                printf("moved to  : %d %d \n", ptr_data->ptr_grid->population[i].x,
                        ptr_data->ptr_grid->population[i].y);
                 if (!check_done(ptr_data->ptr_grid, &ptr_data->ptr_grid->population[i])) {
 
@@ -104,13 +99,11 @@ void *automata_movement(void *param_ptr_data) {
 
             }
             else{
-                printf("process : %d %d NOT IN BOUND or finished ! \n", ptr_data->ptr_grid->population[i].x, ptr_data->ptr_grid->population[i].y);
             }
             //affic_grid(ptr_data->ptr_grid);
         }
     }
         //affic_grid(ptr_data->ptr_grid);
-        printf("END AUTOMATE\n\n");
         return NULL;
     }//automata_movement()
 
@@ -142,7 +135,6 @@ void *automata_movement(void *param_ptr_data) {
         if (y - 1 <= 0) {
             return 0;
         }
-        printf("GO !\n");
         y = y - 1;
 
         for (int j = x; j < x - DEFAULT_PEOPLE_SIZE; j--) {
@@ -189,14 +181,12 @@ void *automata_movement(void *param_ptr_data) {
         while (direction[i] != 0) {
             switch (direction[i++]) {
                 case STOP:
-                    printf("nowhere to go ! \n");
                     return;
                 case O:
 
                     if (check_left(ptr_grid, current_person->x, current_person->y)) {
                         delete_entity(ptr_grid, current_person->x, current_person->y);
                         current_person->x--;
-                        printf("take O\n");
                         return;
                     }
                     break;
@@ -206,7 +196,6 @@ void *automata_movement(void *param_ptr_data) {
                         delete_entity(ptr_grid, current_person->x, current_person->y);
                         current_person->x--;
                         current_person->y--;
-                        printf("take NO\n");
 
                         return;
                     }
@@ -216,7 +205,6 @@ void *automata_movement(void *param_ptr_data) {
                         delete_entity(ptr_grid, current_person->x, current_person->y);
                         current_person->x--;
                         current_person->y++;
-                        printf("take SO\n");
 
                         return;
                     }
@@ -225,7 +213,6 @@ void *automata_movement(void *param_ptr_data) {
                     if (check_up(ptr_grid, current_person->x, current_person->y)) {
                         delete_entity(ptr_grid, current_person->x, current_person->y);
                         current_person->y--;
-                        printf("take N\n");
 
                         return;
                     }
@@ -234,7 +221,6 @@ void *automata_movement(void *param_ptr_data) {
                     if (check_down(ptr_grid, current_person->x, current_person->y)) {
                         delete_entity(ptr_grid, current_person->x, current_person->y);
                         current_person->y++;
-                        printf("take S\n");
 
                         return;
 

@@ -13,7 +13,8 @@ DSRC=src/
 DOBJ=obj/
 DINC=inc/
 
-OBJ=$(DOBJ)elements.o $(DOBJ)main.o $(DOBJ)launcher_version.o $(DOBJ)threading_part.o $(DOBJ)/movement.o $(DOBJ)multiple_threads.o
+OBJ=$(DOBJ)elements.o $(DOBJ)main.o $(DOBJ)launcher_version.o $(DOBJ)threading_part.o $(DOBJ)/movement.o \
+$(DOBJ)multiple_threads.o $(DOBJ)designer.o
 
 $(EXECUTABLE):$(OBJ)
 	$(COMP) $(FLAGS) $(OBJ) -o $(EXECUTABLE)
@@ -33,9 +34,11 @@ $(DOBJ)threading_part.o:$(DSRC)threading_part.c
 $(DOBJ)/movement.o:$(DSRC)movement.c
 	$(COMP) $(FLAGS) -c $< -o $@ -pthread
 
-$(DOBJ)multiple_threads.o: $(DSR)multiple_threads.c
+$(DOBJ)multiple_threads.o:$(DSRC)multiple_threads.c
 	$(COMP) $(FLAGS) -c $< -o $@ -pthread
 
+$(DOBJ)designer.o:$(DSRC)designer.c
+	$(COMP) $(FLAGS) -c $< -o $@ -pthread
 
 clean:
 	rm -f ./src/*~ ./obj/*.o ./*~ ./inc/*~ ./*.exe

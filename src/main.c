@@ -3,6 +3,8 @@
 * using property of synchronisation according to
 * the concurrence
 *
+* author : @CésarCollé and @RemyKaloustian
+* 25 / 09 / 2016
 *
 ***/
 
@@ -15,11 +17,11 @@
 #include "../inc/elements.h"
 #include "../inc/launcher_version.h"
 
-//#define REMYBG
-
 // we assume to put opt script on Main function like other Linux's program do.
 /*we need pointer, because arguments for function are by copy in C */
 /*we will loose space&time without pointer */
+#define VERSION_MAX 2
+
 // Manage opt given by user.
 int
 main(int argc, char *argv[]) {
@@ -38,13 +40,10 @@ main(int argc, char *argv[]) {
             case 'm':
                 t_begin = clock();
                 execut.show_time = 1;
-                printf("mesure  ! \n");
                 break;
             case 'p':
                 // filling randomly the grid
-               // random_populate_grid(&map, atoi(optarg));
-                printf("-p OK \n");
-                execut.nb_people = 2; //pow (2, atoi (optarg));
+                execut.nb_people = pow (2, atoi (optarg));
                 random_populate_grid(&map, execut.nb_people);
 
                 if (!optarg) {
@@ -54,22 +53,20 @@ main(int argc, char *argv[]) {
                 break;
             case 't':
                 // create threads initialization
-                printf("optarg = %s\n", optarg);
                 if (!optarg) {
                     fprintf(stderr, "-t need a parameter !\n");
                     exit(0);
                 }
-                execut.version = atoi(optarg);
-                printf("nombre de thread %s\n", optarg);
+                int version = atoi(optarg);
+                if (version >VERSION_MAX){perror("erreur saisie version");}
+                execut.version = version;
                 break;
             default:
                 printf("%c is not an option \n", c);
-                exit(0);
-                break;
+                exit(2);
         }
     }
     //launch a version with the -t command given by the user
-    printf("out of switch main \n");
     launch_version(&execut, &map);
     // show time taken to the execution of the game.
     if (execut.show_time) {
