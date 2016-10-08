@@ -1,5 +1,6 @@
 /*
 Author Matthieu BERGER
+Author @CésarColle
 15/09/2016
 
 EZConcurrency Project
@@ -61,19 +62,10 @@ typedef struct {
     int people;
 } grid;
 
-
-void set_x(cell* cell, int x);
-void set_y(cell* cell, int y);
 void set_cell_content(cell* my_cell, cell_content_type content);
 void init_cell(cell* my_cell, int x, int y, cell_content_type content);
 void init_grid(grid* my_grid, int width, int height);
 void add_cell_to_grid(grid* my_grid, int x, int y, cell my_cell);
 void add_walls(grid* my_grid);
 void random_populate_grid(grid* my_grid, int people);
-void move_cell(cell* my_cell);
-void affic_grid(grid *);
-void * move_elem();
-void delete_entity(grid *map, int x, int y);
-void draw_entity(grid *map, int x, int y);
-
 #endif

@@ -1,10 +1,16 @@
+#include <bits/time.h>
+
 /*
 * Sport Game's : Who will be the first ?
 * using property of synchronisation according to
 * the concurrence
 *
+* author : @CésarCollé and @RemyKaloustian
+* 25 / 09 / 2016
 *
 ***/
+
+
 
 
 
@@ -12,22 +18,42 @@
 #include <stdio.h>
 #include <time.h>
 #include <math.h>
+#include <unistd.h>
+#include <sys/resource.h>
+#include <stdlib.h>
+#include <sys/time.h>
+
 #include "../inc/elements.h"
 #include "../inc/launcher_version.h"
-
-//#define REMYBG
 
 // we assume to put opt script on Main function like other Linux's program do.
 /*we need pointer, because arguments for function are by copy in C */
 /*we will loose space&time without pointer */
+#define VERSION_MAX 2
+
+
+double get_user_time(){
+    struct timeval time;
+    if (gettimeofday(&time, NULL)){
+        fprintf(stderr, "erreur calcul user time \n");
+    }
+    return (double) time.tv_sec + (double) time.tv_usec * 0.000001;
+}
+
 // Manage opt given by user.
 int
 main(int argc, char *argv[]) {
     struct execution execut = {0, 0, 0, 0};
     /* iteration on argv with utilisation of get_opt library */
+
     grid map;
     time_t t_begin;
+    double start, end, duration;
+    struct rusage r_usage;
+    struct timeval time;
+
     char c = 0;
+    start = get_user_time();
     // nb_threads filled by user with opt -p
     // initialisation de la grille
     init_grid(&map, DEFAULT_GRID_HEIGHT, DEFAULT_GRID_WIDTH);
@@ -38,13 +64,10 @@ main(int argc, char *argv[]) {
             case 'm':
                 t_begin = clock();
                 execut.show_time = 1;
-                printf("mesure  ! \n");
                 break;
             case 'p':
                 // filling randomly the grid
-               // random_populate_grid(&map, atoi(optarg));
-                printf("-p OK \n");
-                execut.nb_people = 2; //pow (2, atoi (optarg));
+                execut.nb_people = pow (2, atoi (optarg));
                 random_populate_grid(&map, execut.nb_people);
 
                 if (!optarg) {
@@ -54,27 +77,27 @@ main(int argc, char *argv[]) {
                 break;
             case 't':
                 // create threads initialization
-                printf("optarg = %s\n", optarg);
                 if (!optarg) {
                     fprintf(stderr, "-t need a parameter !\n");
                     exit(0);
                 }
-                execut.version = atoi(optarg);
-                printf("nombre de thread %s\n", optarg);
+                int version = atoi(optarg);
+
+                if (version >VERSION_MAX){perror("erreur saisie version");}
+                execut.version = version;
                 break;
             default:
                 printf("%c is not an option \n", c);
-                exit(0);
-                break;
+                exit(2);
         }
     }
     //launch a version with the -t command given by the user
-    printf("out of switch main \n");
     launch_version(&execut, &map);
     // show time taken to the execution of the game.
     if (execut.show_time) {
         time_t t_end = clock();
-        printf("time : %f \n", (float) (t_end - t_begin) / CLOCKS_PER_SEC);
+        duration = get_user_time() - start;
+        fprintf(stdout, "\n %d  %d  %f %f \n",execut.version, execut.nb_people, (float) (t_end - t_begin) / CLOCKS_PER_SEC, duration);
     }
 // fin options
     return 0;

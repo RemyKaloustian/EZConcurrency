@@ -1,21 +1,16 @@
+/**
+ * this part will manage all the element needed by the map .
+ * Indeed we insert the declaration of these elemets and
+ * also the initialisation.
+ *
+ * author : @CésarCollé
+ * 08/10/2016
+ *
+ **/
+
+
 #include "../inc/elements.h"
-
- /*
-void
-set_x(cell *my_cell, int x) {
-    my_cell->x = x;
-}
-
-void
-set_y(cell *my_cell, int y) {
-    my_cell->y = y;
-}
- */
-
-void
-set_cell_content(cell *my_cell, cell_content_type content) {
-    my_cell->content = content;
-}
+#include "../inc/designer.h"
 
 void
 init_cell(cell *my_cell, int x, int y, cell_content_type content) {
@@ -29,23 +24,11 @@ add_cell_to_grid(grid *my_grid, int x, int y, cell my_cell) {
     my_grid->matrix[x][y] = my_cell;
 }
 
-void draw_entity(grid *map, int x, int y) {
-    for (int i = y; i < y + DEFAULT_PEOPLE_SIZE; i++) {
-        for (int j = x; j > x - DEFAULT_PEOPLE_SIZE; j--) {
-            map->matrix[i][j].content = PERSON;
-        }
-
-    }
-}
-
-void delete_entity(grid *map, int x, int y) {
-    for (int i = y; i < y + DEFAULT_PEOPLE_SIZE; i++) {
-        for (int j = x; j > x - DEFAULT_PEOPLE_SIZE; j--) {
-            map->matrix[i][j].content = EMPTY;
-        }
-
-    }
-}
+/**
+ * Adding all the walls on the map.
+ * We produce hard values because these values will stay the same
+ * in the customer's specifications.
+ * */
 
 void
 add_walls(grid *my_grid) {
@@ -74,12 +57,10 @@ add_walls(grid *my_grid) {
         }
 
     }
-    printf("cpt ====== %d cpt1 = %d \n", cpt, cpt1);
 }
 
 void
 init_grid(grid *my_grid, int width, int height) {
-    printf("init \n");
     my_grid->height = height;
     my_grid->width = width;
 
@@ -93,20 +74,16 @@ init_grid(grid *my_grid, int width, int height) {
     add_walls(my_grid);
 }
 
-int
-is_available_coords(grid *my_grid, int x, int y) {
-    if (x < 0 || x > my_grid->width - DEFAULT_PEOPLE_SIZE - 1
-        || y < 0 || y > my_grid->height - DEFAULT_PEOPLE_SIZE - 1)
-//
-        return -1;
-    for (int i = x; i < x + DEFAULT_PEOPLE_SIZE; i++) {
-        for (int j = y; j < y + DEFAULT_PEOPLE_SIZE; j++) {
-            if (my_grid->matrix[i][j].content != EMPTY)
-                return -1;
+int  is_available_coords(grid *my_grid, int x, int y) {
+    for (int i = y; i < y + DEFAULT_PEOPLE_SIZE; i++) {
+        for (int j = x; j > x - DEFAULT_PEOPLE_SIZE; j--) {
+            if (my_grid->matrix[i][j].content != EMPTY) {
+                return 0;
+            }
         }
     }
     //success
-    return 0;
+    return 1;
 }
 
 /*
@@ -119,105 +96,35 @@ random_populate_grid(grid *my_grid, int people) {
     int max_x = DEFAULT_GRID_WIDTH - DEFAULT_PEOPLE_SIZE;
     int min_y = 0;
     int max_y = DEFAULT_GRID_HEIGHT - DEFAULT_PEOPLE_SIZE;
-    printf("INIT GRID ==== %d\n",people);
     my_grid->population = calloc(people, sizeof(person));
-    printf("random \n");
-    //printf("minx:%d, maxx:%d, miny:%d maxY:%d", min_x, max_x, min_y, max_y);
     int tab[13] = {0, 19, 3, 19,100,200, 9, 180, 60, 170, 100, 128,64 };
     //for (int i = 0; i < people; i++) {
         //x = rand() % (max_x - min_x + 1) + min_x;
         //y = rand() % (max_y - min_y + 1) + min_y;
-        // printf("draw entity \n");
        // drawn_entity(my_grid, x, y);
     //}
+    int good_coordinates ;
+    for (int i = 0; i < people; ++i) {
+        //going through all the persons
+        do{
+            good_coordinates = 1;
+            //Setting teh coordinates
+            x = rand() % (max_x - min_x + 1) + min_x;
+            y = rand() % (max_y - min_y + 1) + min_y;
+            //printf("%d %d \n", x, y);
+        }while(is_available_coords(my_grid, x, y));
+        my_grid->population[i].x = x;
+        my_grid->population[i].y = y;
+        my_grid->population[i].current_status = AVAILABLE;
+        draw_entity(my_grid,x, y);
 
-        my_grid->population[0].x = tab[1];
-        my_grid->population[0].y = tab[2];
-        my_grid->population[0].current_status = AVAILABLE;
-    my_grid->population[1].x = tab[3];
-    my_grid->population[1].y = tab[4];
-    my_grid->population[1].current_status = AVAILABLE;
-  /*  my_grid->population[2].x = tab[5];
-    my_grid->population[2].y = tab[6];
-    my_grid->population[2].current_status = AVAILABLE;
-    my_grid->population[3].x = tab[7];
-    my_grid->population[3].y = tab[8];
-    my_grid->population[3].current_status = AVAILABLE;
-    my_grid->population[4].x = tab[9];
-    my_grid->population[4].y = tab[10];
-    my_grid->population[4].current_status = AVAILABLE;
-    my_grid->population[5].x = tab[11];
-    my_grid->population[5].y = tab[12];
-    my_grid->population[5].current_status = AVAILABLE;*/
-
-
-    draw_entity(my_grid,tab[1], tab[2]);
-    draw_entity(my_grid,tab[3], tab[4]);
-
-    /*draw_entity(my_grid,tab[5], tab[6]);
-    draw_entity(my_grid,tab[7], tab[8]);
-    draw_entity(my_grid,tab[9], tab[10]);
-    draw_entity(my_grid,tab[11], tab[12]);*/
-
-        //draw_entity(my_grid,tab[2], tab[3]);
-
-/*    my_grid->population[0].x = tab[0];
-    my_grid->population[0].y = tab[1];
-    my_grid->population[0].current_status = AVAILABLE;
-
-    my_grid->population[1].x = tab[2];
-    my_grid->population[1].y = tab[3];
-    my_grid->population[1].current_status = AVAILABLE;
-
-*/
-
-    printf("fin \n\n\n");
-    affic_grid(my_grid);
-}
-
-
-//function will be executed by the thread
-void *
-move_elem() {
-    printf("In the thread, moving the elements !!\n");
-    //sleep (1);
-    return NULL;            //function must return something
-}
-
-void affic_grid(grid *map) {
-    for (size_t i = 0; i < DEFAULT_GRID_HEIGHT; i++) {
-        for (size_t j = 0; j < DEFAULT_GRID_WIDTH; j++) {
-            switch (map->matrix[i][j].content) {
-                case EMPTY:
-                    putchar('-');
-                    break;
-                case WALL:
-                    putchar('|');
-                    break;
-                case PERSON:
-                    putchar('x');
-                    break;
-                default :
-                    fprintf(stderr, "erreur affichage\n");
-                    exit(1);
-            }
-        }
-        printf("\n");
-    }
-}
-
-/*
-int main(){
-    grid simulation_grid;
-    for (size_t i = 0; i < DEFAULT_GRID_HEIGHT; i++) {
-      memset(simulation_grid.matrix[i], 0,DEFAULT_WALL_WIDTH);
 
     }
-    init_grid(&simulation_grid, DEFAULT_GRID_WIDTH, DEFAULT_GRID_HEIGHT);
-    affic_grid(&simulation_grid);
-    random_populate_grid(&simulation_grid, 32);
-    printf("\n\n");
-    affic_grid(&simulation_grid);
-    return 0;
+
+
+    //my_grid->population[1].x = tab[3];
+   // my_grid->population[1].y = tab[4];
+    //my_grid->population[1].current_status = AVAILABLE;
+    //draw_entity(my_grid,tab[3], tab[4]);
 }
-*/
+
