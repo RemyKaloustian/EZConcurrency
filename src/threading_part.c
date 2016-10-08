@@ -4,6 +4,7 @@
 #include "../inc/launcher_version.h"
 #include "../inc/movement.h"
 //#include "../inc/determinism_travel.h"
+#include "../inc/multiple_threads.h"
 
 #define MIDDLE {256, 64, PERSON}
 #define TOP_RIGHT_CORNER {{DEFAULT_GRID_WIDTH, 0}, MIDDLE}}
@@ -28,12 +29,6 @@ pthread_t single_thread;
 *manage the partitionning of the map by the threads
 * Assuming we bouhnd the part of thread on all the map .
 **/
-void
-manage_partition (struct execution *ptr_execution, int rank)
-{
-
-
-}
 
 void
 create_single_thread (grid * map)
@@ -54,7 +49,7 @@ struct movement single_movement = {map,  0, 512, 0 , 128};
       fprintf (stderr, "Error joining thread\n");
       exit(1);
     }
-
+    affic_grid(map);
 }				//create_single_thread()
 
 
@@ -70,23 +65,53 @@ create_threads (grid * map)
     struct movement movements[THREADS_MAX] = {{map,  0, 256, 0, 64}, {map, 256, 512, 0, 64}, {map, 0, 256, 64, 128}, {map, 256, 512, 64, 128}};
 
    for (size_t i = 0; i < THREADS_MAX; i++) {
-
+        printf("create %d threads \n", i);
        if(pthread_create(&threads[i], NULL, automata_movement, &movements[i])){
            fprintf(stderr, "Error creating thread\n");
            exit(1);
        }
    }
-    void * status;
+//    void * status;
     printf("fin creation thread  \n");
     for (size_t j = 0; j < THREADS_MAX; ++j) {
-        if(pthread_join(threads[j], status))
+        printf("join %d  thread \n", j);
+        if(pthread_join(threads[j], NULL))
         {
-            fprintf (stderr, "Error joining thread\n");
+            fprintf (stderr, "Error joining thread \n");
             exit(5);
         }
     }
     printf("\n Final  : \n");
     affic_grid(map);
+}
 
+
+
+void multiple_threads(grid * map){
+    printf("Multiple threads %d ! \n", map->people);
+    int size_threads = map->people;
+    pthread_t pthreads[size_threads];
+
+    struct multiple_movement *move;
+    memset(pthreads, 0, size_threads);
+    for (int i = 0; i <size_threads; ++i) {
+        printf("boucle creation thread i = : %d\n", i);
+        move = calloc(1, sizeof(struct multiple_movement));
+        move->map = map;
+        move->rank = i;
+        printf("je met : %p\n", &move);
+        if ( pthread_create(&pthreads[i], NULL, multiple_movement, move)) {
+            fprintf(stderr, "error creating multiple threads");
+            exit(0);
+        }
+    }
+    for (size_t j = 0; j < size_threads; ++j) {
+        if(pthread_join(pthreads[j], NULL))
+        {
+            fprintf (stderr, "Error joining thread \n");
+            exit(5);
+        }
+    }
+    affic_grid(map);
 
 }

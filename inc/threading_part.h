@@ -5,6 +5,6 @@
 
 void create_single_thread(grid* map);
 void create_threads(grid* );
-void manage_partition(struct execution *, int );
+void multiple_threads(grid * map);
 
 #endif

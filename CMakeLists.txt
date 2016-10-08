@@ -16,7 +16,7 @@ set(SOURCE_FILES
     src/main.c
     src/movement.c
     src/threading_part.c
-    )
+        src/multiple_threads.c inc/multiple_threads.h)
 
 add_executable(EZConcurrency ${SOURCE_FILES})
 set(THREADS_PREFER_PTHREAD_FLAG ON)
