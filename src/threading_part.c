@@ -65,7 +65,6 @@ create_single_thread(grid *map) {
         fprintf(stderr, "Error joining thread\n");
         exit(1);
     }
-    affic_grid(map);
 }                //create_single_thread()
 
 
@@ -113,7 +112,6 @@ void multiple_threads(grid *map) {
     struct multiple_movement *move;
     memset(pthreads, 0, size_threads);
     for (int i = 0; i < size_threads; ++i) {
-        ("boucle creation thread i = : %d\n", i);
         move = calloc(1, sizeof(struct multiple_movement));
         move->map = map;
         move->rank = i;

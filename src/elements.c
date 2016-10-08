@@ -74,20 +74,16 @@ init_grid(grid *my_grid, int width, int height) {
     add_walls(my_grid);
 }
 
-int
-is_available_coords(grid *my_grid, int x, int y) {
-    if (x < 0 || x > my_grid->width - DEFAULT_PEOPLE_SIZE - 1
-        || y < 0 || y > my_grid->height - DEFAULT_PEOPLE_SIZE - 1)
-//
-        return -1;
-    for (int i = x; i < x + DEFAULT_PEOPLE_SIZE; i++) {
-        for (int j = y; j < y + DEFAULT_PEOPLE_SIZE; j++) {
-            if (my_grid->matrix[i][j].content != EMPTY)
-                return -1;
+int  is_available_coords(grid *my_grid, int x, int y) {
+    for (int i = y; i < y + DEFAULT_PEOPLE_SIZE; i++) {
+        for (int j = x; j > x - DEFAULT_PEOPLE_SIZE; j--) {
+            if (my_grid->matrix[i][j].content != EMPTY) {
+                return 0;
+            }
         }
     }
     //success
-    return 0;
+    return 1;
 }
 
 /*
@@ -107,14 +103,28 @@ random_populate_grid(grid *my_grid, int people) {
         //y = rand() % (max_y - min_y + 1) + min_y;
        // drawn_entity(my_grid, x, y);
     //}
+    int good_coordinates ;
+    for (int i = 0; i < people; ++i) {
+        //going through all the persons
+        do{
+            good_coordinates = 1;
+            //Setting teh coordinates
+            x = rand() % (max_x - min_x + 1) + min_x;
+            y = rand() % (max_y - min_y + 1) + min_y;
+            //printf("%d %d \n", x, y);
+        }while(is_available_coords(my_grid, x, y));
+        my_grid->population[i].x = x;
+        my_grid->population[i].y = y;
+        my_grid->population[i].current_status = AVAILABLE;
+        draw_entity(my_grid,x, y);
 
-        my_grid->population[0].x = tab[1];
-        my_grid->population[0].y = tab[2];
-        my_grid->population[0].current_status = AVAILABLE;
-    my_grid->population[1].x = tab[3];
-    my_grid->population[1].y = tab[4];
-    my_grid->population[1].current_status = AVAILABLE;
-    draw_entity(my_grid,tab[1], tab[2]);
-    draw_entity(my_grid,tab[3], tab[4]);
+
+    }
+
+
+    //my_grid->population[1].x = tab[3];
+   // my_grid->population[1].y = tab[4];
+    //my_grid->population[1].current_status = AVAILABLE;
+    //draw_entity(my_grid,tab[3], tab[4]);
 }
 
