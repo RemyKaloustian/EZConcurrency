@@ -1,0 +1,64 @@
+Conception pour la partie 2 du projet AKOUIRE
+
+
+
+NB :Pour des raisons de charisme, il serait mieux de faire une fonction par sémaphore pour éviter de répéter le code pour le déplacement.
+
+Imagine qu'une des fonctions qu'on passe à un thread soit MoveYoAss(), on aurait alors:
+
+MoveYoAssNorthLeft(...)//Pour le déplacement de NorthLeft
+{
+    sem_wait(masem);
+    FonctionQu'ompassaitAuThreadPourLEtape1() //On déplace le bonhomme
+    sem_post(masem);
+}
+
+
+--> Pour le cas t2 (un thread par personne) :
+Si on suit le schéma du dessus, on passe MoveYouAssNorth() à chaque thread, comme ça ils on tous la même semaphore et un seul à la fois se déplace.
+
+--> Pour le cas t1 (un thread par zone, 4 threads)
+Si on fait une semaphore à 4 threads, ça ne garantit pas qu'on ait dedans 4 threads de zones différentes.
+Il faudrait alors faire une fonction pour chaque zone et chacune a une semaphore différente pour garantir qu'il n'y ait pas deux déplacements en même temps
+dans une même zone.
+
+RÉCAPITULATION DE COMMENT ÇA MARCHE:
+
+
+semaphore sem1, semaphore sem2, sempahore sem3, semaphore sem4;
+
+//Initialisation des semaphores
+
+MoveOneAssAtATime()
+{
+  //déplacement classique, qu'on a déjà
+}
+
+//Elle, on la passe aussi à chaque thread dans t2
+MoveYoAssNorthLeft()
+{
+  sem_wait(sem1);
+  MoveOneAssAtATime();
+  sem_post(sem1);
+}
+
+MoveYoAssNorthRight()
+{
+  sem_wait(sem2);
+  MoveOneAssAtATime();
+  sem_post(sem2);
+}
+
+MoveYoAssSouthRight()
+{
+  sem_wait(sem3);
+  MoveOneAssAtATime();
+  sem_post(sem3);
+}
+
+MoveYoAssSouthLeft()
+{
+  sem_wait(sem4);
+  MoveOneAssAtATime();
+  sem_post(sem4);
+}
