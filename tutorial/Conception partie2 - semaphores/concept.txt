@@ -62,3 +62,30 @@ MoveYoAssSouthLeft()
   MoveOneAssAtATime();
   sem_post(sem4);
 }
+
+
+
+//PART  1  - Jouons safe
+Nous allons tout d'abord implémenter une version avec une seule sémaphore pour le déplacement.
+Plutôt que de faire des sémaphores directement dans les fonctions de bas niveau, nous allons
+en faire une au niveau d'automata_movement().
+
+Le fait d'ajouter cette sémaphore ici permet de garantir qu'en seul thread de déplacement à la fois
+et fait marcher le t1 et t2 d'un seul coup !
+
+//PART 2  - Un peu de fun
+On définit la section critique qui est la zone dans laquelle on effectue des déplacements que à gauche (zone entre les murs)
+
+exemple en pseudo code()
+
+automata_movement()
+{
+  if(la personne est dans la zone critique )
+  {
+    section critique
+  }
+  else
+  {
+    déplacement normale
+  }
+}
