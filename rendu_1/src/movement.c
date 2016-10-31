@@ -4,10 +4,13 @@
 
 #include<signal.h>
 
+
+
+
+
 #define MIN_FINAL_Y 60
 #define MAX_FINAL_Y 67
 #define NB_DIRECTION 3
-#define X_LIMITE 15
 
 grid * Map;
 void sighandler(int signo)
@@ -63,12 +66,12 @@ void make_choice(enum Direction *choice, person *current) {
 
 int is_done(person *persons, int nb) {
     for (int i = 0; i < nb; ++i) {
-        if (persons[i].x >= X_LIMITE) {
-#ifdef DEBUG
-           printf("x:%d y:%d still alive %d \n", persons[i].x, persons[i].y, persons[i].it_alive);
-#endif
+        if (persons[i].x >= 15) {
+           //printf("x:%d y:%d still alive %d \n", persons[i].x, persons[i].y, persons[i].it_alive);
+
             return 1;
         }
+
     }
     return 0;
 }
@@ -96,6 +99,7 @@ void *automata_movement(void *param_ptr_data) {
 //    printf("processus: %d %d %d %d enter\n", ptr_data->left_bound, ptr_data->top_bound, ptr_data->right_bound, ptr_data->bottom_bound);
     while (is_done(ptr_data->ptr_grid->population, ptr_data->ptr_grid->people)) {
         for (int i = 0; i < ptr_data->ptr_grid->people; ++i) {
+            //printf("in for\n");
             // if the person is into the bound of the processus and he's not finished Them :
             if (is_in_bounds(&ptr_data->ptr_grid->population[i], ptr_data)
                 && ptr_data->ptr_grid->population[i].x >= 15) {
@@ -136,6 +140,12 @@ void *automata_movement(void *param_ptr_data) {
             else if (ptr_data->ptr_grid->population[i].x <= 15){
                 ptr_data->ptr_grid->population[i].current_status = DONE;
             }
+//            if (cpt++ == 200){
+//                fprintf(stderr, "fin\n");
+//                affic_grid(ptr_data->ptr_grid);
+//                //exit(1);
+//                break;
+//            }
         }
     }
     return NULL;
@@ -177,6 +187,7 @@ void *automata_movement(void *param_ptr_data) {
 
             }
         }
+
         return 1;
     }
 
@@ -213,7 +224,7 @@ void *automata_movement(void *param_ptr_data) {
         delete_entity(ptr_grid, current_person->x, current_person->y);
         while (direction[i] != 0) {
 #ifdef DEBUG
-          printf("je prend la direction : %d\n", direction[i]);
+            //printf("je prend la direction : %d\n", direction[i]);
 #endif
             switch (direction[i++]) {
                 case STOP:
@@ -233,6 +244,7 @@ void *automata_movement(void *param_ptr_data) {
                     if (check_up_left(ptr_grid, current_person->x, current_person->y)) {
 #ifdef DEBUG
                         printf("NO\n");
+
 #endif
 //                        delete_entity(ptr_grid, current_person->x, current_person->y);
                         current_person->x--;
@@ -282,6 +294,13 @@ void *automata_movement(void *param_ptr_data) {
             }
 
         }
+//        fprintf(stderr, "x:%d y:%d can't move\n", current_person->x, current_person->y);
+//        draw_entity(ptr_grid, current_person->x, current_person->y);
+//        if (block++ == 15000){
+//            affic_grid(ptr_grid);
+//            exit(5);
+//        }
+
 
 //First we check if the place we wanna go is free, if not checking other places.
 //Changing the person coordinates

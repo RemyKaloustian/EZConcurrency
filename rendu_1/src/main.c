@@ -8,7 +8,7 @@
 * 25 / 09 / 2016
 *
 ***/
-#include <bits/time.h>
+//#include <bits/time.h>
 #include <getopt.h>
 #include <stdio.h>
 #include <time.h>
@@ -31,7 +31,7 @@ double get_user_time(){
     if (gettimeofday(&time, NULL)){
         fprintf(stderr, "erreur calcul user time \n");
     }
-    return (double) ((double)time.tv_sec + (double) time.tv_usec );
+    return (double) time.tv_sec + (double) time.tv_usec * 0.000001;
 }
 
 // Manage opt given by user.
@@ -90,12 +90,8 @@ main(int argc, char *argv[]) {
     // show time taken to the execution of the game.
     if (execut.show_time) {
         time_t t_end = clock();
-        duration = (  ((double) get_user_time()) - start);
-        #ifndef PLOT
-        fprintf(stdout, "version: %d  people :%d  cpu :%f user :%f \n",execut.version, execut.nb_people, (float) ((t_end - t_begin)*1000)/CLOCKS_PER_SEC , duration*0.001);
-        #else
-        printf("%d %d %f %f \n",execut.version, execut.nb_people, (float) ((t_end - t_begin)*1000)/CLOCKS_PER_SEC , duration*0.001);
-        #endif
+        duration = get_user_time() - start;
+        fprintf(stdout, "mode : %d  people :%d  CPU :%f ms USER :%f ms \n",execut.version, execut.nb_people, (float) ((t_end - t_begin)*1000)/CLOCKS_PER_SEC , duration*1000);
     }
 // fin options
     return 0;
