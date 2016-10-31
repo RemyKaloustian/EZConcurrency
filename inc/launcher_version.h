@@ -18,8 +18,9 @@ struct execution {
   int version;
   int nb_people;
   int show_time;
+  int mode;
 };
-
-void launch_version(struct execution *, grid *);
+void launch_version(struct execution *ptr_execut, grid *map);
+void launcher_all(struct execution *ptr_execut, grid * map);
 
 #endif

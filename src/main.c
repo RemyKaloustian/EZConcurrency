@@ -37,7 +37,7 @@ double get_user_time(){
 // Manage opt given by user.
 int
 main(int argc, char *argv[]) {
-    struct execution execut = {0, 0, 0, 0};
+    struct execution execut = {0, 0, 0, 0, 0};
     /* iteration on argv with utilisation of get_opt library */
 // the map structure
     grid map;
@@ -51,8 +51,7 @@ main(int argc, char *argv[]) {
     // initialisation de la grille
     init_grid(&map, DEFAULT_GRID_HEIGHT, DEFAULT_GRID_WIDTH);
    // affic_grid(&map);
-
-    while ((c = getopt(argc, argv, "mt:p:")) != -1) {
+    while ((c = getopt(argc, argv, "m::t:p:e:")) != -1) {
         switch (c) {
             case 'm':
                 t_begin = clock();
@@ -62,7 +61,6 @@ main(int argc, char *argv[]) {
                 // filling randomly the grid
                 execut.nb_people = pow (2, atoi (optarg));
                 random_populate_grid(&map, execut.nb_people);
-
                 if (!optarg) {
                     fprintf(stderr, "-p need a parameter !\n");
                     exit(0);
@@ -79,12 +77,26 @@ main(int argc, char *argv[]) {
                 if (version >VERSION_MAX){perror("erreur saisie version");}
                 execut.version = version;
                 break;
+
+            case 'e':
+            if (!optarg) {
+                fprintf(stderr, "-e need a parameter !\n");
+                exit(0);
+            }
+            int mode = atoi(optarg);
+
+            if (mode >VERSION_MAX){perror("erreur saisie version");}
+            execut.mode = mode;
+            break;
             default:
                 printf("%c is not an option \n", c);
                 exit(2);
         }
     }
     //launch a version with the -t command given by the user
+    #ifdef DEBUG
+    printf("mode : %d version : %d", execut.mode, execut.version);
+    #endif
     launch_version(&execut, &map);
     free(map.population);
     // show time taken to the execution of the game.

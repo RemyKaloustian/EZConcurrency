@@ -12,7 +12,7 @@ if [ "$1" = "bench" ]; then
   do
   for j in `seq 0 2`;
   do
-      $EXE -t "$j" -p "$i" -m
+      $EXE -t "$j" -p "$i" -m -e 0
 
   done
   done
@@ -24,11 +24,11 @@ elif [ "$1" = "bench_plot" ]; then
   do
   for j in `seq 0 2`;
   do
-    $EXE -t "$j" -p "$i" -m >> ./output/data.txt
+    $EXE -t "$j" -p "$i" -m -e 0 >> ./output/data.txt
   done
   done
   python ./test/graph_analyse.py ./output/data.txt
 
 else
-  $EXE -t 1 -p 4 -m
+  $EXE -t 1 -p 4 -m -e 0
 fi

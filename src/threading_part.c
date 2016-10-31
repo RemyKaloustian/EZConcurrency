@@ -23,39 +23,21 @@
 #include "../inc/movement.h"
 #include "../inc/multiple_threads.h"
 #include "../inc/designer.h"
-
-#define MIDDLE {256, 64, PERSON}
-/*
- * we define boundaries
- *
- * */
-#define TOP_RIGHT_CORNER {{DEFAULT_GRID_WIDTH, 0}, MIDDLE}}
-#define TOP_LEFT_CORNER {{0, DEFAULT_GRID_WIDTH}, MIDDLE}
-#define BOTTOM_LEFT_CORNER {{DEFAULT_GRID_HEGHT, 0}}
-#define BOTTOM_RIGHT_CORNER {{0, DEFAULT_GRID_HEIGHT}}
-#define THREADS_MAX 4
-
-
-struct bound {
-    cell top_right;
-    cell top_down;
-};
-
-pthread_t single_thread;
-
+#include "../inc/threading_part.h"
 
 /*
 *manage the partitionning of the map by the threads
 * Assuming we bouhnd the part of thread on all the map .
 **/
+pthread_t single_thread;
 
 void
-create_single_thread(grid *map) {
+create_single_thread(grid *map, void*(*funct)(void*)) {
 
     struct movement single_movement = {map, 0, 512, 0, 128};
 
     //Creating the single thread
-    if (pthread_create(&single_thread, NULL, automata_movement, &single_movement)) {
+    if (pthread_create(&single_thread, NULL, funct, &single_movement)) {
         fprintf(stderr, "Error creating thread\n");
         exit(1);
     }
@@ -78,7 +60,7 @@ create_single_thread(grid *map) {
  * */
 
 void
-create_threads(grid *map) {
+create_threads(grid *map, void*(*funct)(void*)) {
     pthread_t threads[THREADS_MAX];
     memset(threads, 0, THREADS_MAX);
     // define all boundarie of these 4 threads. these boundaries will split
@@ -91,7 +73,7 @@ create_threads(grid *map) {
     // create THREADS_MAX = 4 threads
     for (size_t i = 0; i < THREADS_MAX; i++) {
         // throw the automata_movement
-        if (pthread_create(&threads[i], NULL, automata_movement, &movements[i])) {
+        if (pthread_create(&threads[i], NULL, *funct, &movements[i])) {
             fprintf(stderr, "Error creating thread\n");
             exit(6);
         }
@@ -105,7 +87,7 @@ create_threads(grid *map) {
 }
 
 
-void multiple_threads(grid *map) {
+void multiple_threads(grid *map, void*(*funct)(void*)) {
     int size_threads = map->people;
     pthread_t pthreads[size_threads];
     struct multiple_movement *move;
@@ -114,7 +96,7 @@ void multiple_threads(grid *map) {
         move = calloc(1, sizeof(struct multiple_movement));
         move->map = map;
         move->rank = i;
-        if (pthread_create(&pthreads[i], NULL, multiple_movement, move)) {
+        if (pthread_create(&pthreads[i], NULL, *funct, move)) {
             fprintf(stderr, "error creating multiple threads");
             exit(0);
         }
