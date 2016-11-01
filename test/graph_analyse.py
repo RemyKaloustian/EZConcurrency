@@ -21,12 +21,8 @@ for line in f:
     for a in data:
         if (len(a) > 0 and a != " " and a != "Over"):
             l = l +  [a]
-    print("L = ", l)
     if (len(l) > 1):
         dico[data[0]] = dico[data[0]] + [l[2:]]
-        print(dico[data[0]])
-print(dico)
-
 tpCPU0 = []
 tpUSER0 = []
 
@@ -36,7 +32,6 @@ tpUSER1 = []
 tpCPU2 = []
 tpUSER2 = []
 for v in dico['0']:
-    print("v = ", v)
     tpCPU0 =tpCPU0+ [float(v[0])]
     tpUSER0 = tpUSER0+ [float(v[1])]
 for v in dico['1']:

@@ -10,13 +10,17 @@ set(SOURCE_FILES
     inc/launcher_version.h
     inc/movement.h
     inc/threading_part.h
-    src/determinism_choice.c
     src/elements.c
     src/launcher_version.c
     src/main.c
     src/movement.c
     src/threading_part.c
-        src/multiple_threads.c inc/multiple_threads.h src/designer.c inc/designer.h)
+        src/multiple_threads.c
+        inc/multiple_threads.h
+        src/designer.c
+        inc/designer.h
+        src/movement_sem.c
+        inc/movement_sem.h)
 
 add_executable(EZConcurrency ${SOURCE_FILES})
 set(THREADS_PREFER_PTHREAD_FLAG ON)

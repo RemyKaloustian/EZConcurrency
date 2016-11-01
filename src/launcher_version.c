@@ -14,6 +14,7 @@
 #include "../inc/launcher_version.h"
 #include "../inc/threading_part.h"
 #include "../inc/multiple_threads.h"
+#include "../inc/movement_sem.h"
 
 #include <pthread.h>
 // assuming the number of threads for t1 is 4
@@ -24,7 +25,7 @@ void launch_version(struct execution *ptr_execut, grid *map);
 
 void * (*launcher[VERSION][VERSION])(void *)  =
 {{&automata_movement,&automata_movement,&multiple_movement },
- {&automata_movement,&automata_movement,&multiple_movement },
+ {&automata_movement,&automata_synchronized_sem,&multiple_movement },
 {0, 0, 0}};
 
 

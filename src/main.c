@@ -104,11 +104,12 @@ main(int argc, char *argv[]) {
         time_t t_end = clock();
         duration = (  ((double) get_user_time()) - start);
         #ifndef PLOT
-        fprintf(stdout, "version: %d  people :%d  cpu :%f user :%f \n",execut.version, execut.nb_people, (float) ((t_end - t_begin)*1000)/CLOCKS_PER_SEC , duration*0.001);
+        fprintf(stdout, "version :%d  people :%d  cpu :%f user :%f \n",execut.version, execut.nb_people, (float) ((t_end - t_begin)*1000)/CLOCKS_PER_SEC , duration*0.001);
         #else
         printf("%d %d %f %f \n",execut.version, execut.nb_people, (float) ((t_end - t_begin)*1000)/CLOCKS_PER_SEC , duration*0.001);
         #endif
     }
+    affic_grid(&map);
 // fin options
     return 0;
 }

@@ -14,7 +14,7 @@ DINC=inc/
 EXECUTABLE=$(DOBJ)executable.exe
 
 OBJ=$(DOBJ)elements.o $(DOBJ)main.o $(DOBJ)launcher_version.o $(DOBJ)threading_part.o $(DOBJ)/movement.o \
-$(DOBJ)multiple_threads.o $(DOBJ)designer.o
+$(DOBJ)multiple_threads.o $(DOBJ)designer.o $(DOBJ)movement_sem.o
 
 $(EXECUTABLE):$(OBJ)
 	$(COMP) $(FLAGS) $(OBJ) -o $(EXECUTABLE)
@@ -38,6 +38,9 @@ $(DOBJ)multiple_threads.o:$(DSRC)multiple_threads.c
 	$(COMP) $(FLAGS) -c $< -o $@ -pthread
 
 $(DOBJ)designer.o:$(DSRC)designer.c
+	$(COMP) $(FLAGS) -c $< -o $@ -pthread
+
+$(DOBJ)movement_sem.o:$(DSRC)movement_sem.c
 	$(COMP) $(FLAGS) -c $< -o $@ -pthread
 
 clean:

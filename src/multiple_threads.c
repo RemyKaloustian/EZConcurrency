@@ -26,3 +26,16 @@ void * multiple_movement(void * data){
     free(data);
     return NULL;
 }
+
+void * multple_synchronized_sem(void * data){
+    struct multiple_movement *ptr_data = data;
+    person * current = &ptr_data->map->population[ptr_data->rank];
+    while (current->x >= X_FINAL) {
+        delete_entity(ptr_data->map, current->x, current->y);
+        move_person(ptr_data->map, current);
+        draw_entity(ptr_data->map, current->x, current->y);
+    }
+    delete_entity(ptr_data->map, current->x, current->y);
+    free(data);
+    return NULL;
+}
