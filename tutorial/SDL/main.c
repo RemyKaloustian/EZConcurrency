@@ -60,6 +60,16 @@ void draw_right_lower_wall(pixel * wallpixel)
 }
 
 
+void draw_right_upper_wall(pixel * wallpixel)
+{
+  for(int ix = 112; ix < 127; ix++)
+      for(int iy = 0; iy < 56 ; iy++)
+      {
+          put_pixel(mMainSurface, ix, iy, &wallpixel);
+      }
+}
+
+
 
 int main( int argc, char* args[] )
 {
@@ -97,7 +107,7 @@ int main( int argc, char* args[] )
                 draw_left_upper_wall(&wall);
                 draw_left_lower_wall(&wall);
                 draw_right_lower_wall(&wall);
-
+                draw_right_upper_wall(&wall);
                 SDL_UnlockSurface(mMainSurface);
 
                 SDL_UpdateWindowSurface( mWindow );
