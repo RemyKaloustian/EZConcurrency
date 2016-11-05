@@ -13,6 +13,10 @@ SDL_Event event;
 const int Win_W = 512   ;
 const int Win_H = 128;
 
+
+
+
+
 typedef struct {
     Uint8 r;
     Uint8 g;
@@ -27,19 +31,37 @@ void put_pixel(SDL_Surface* surf, int x,int y,pixel* p)
     *p_screen = SDL_MapRGBA(surf->format,p->r,p->g,p->b,p->a);
 }
 
+void draw_left_upper_wall(pixel * wallpixel)
+{
+  for(int ix = 0; ix < 16; ix++)
+      for(int iy = 0; iy < 60 ; iy++)
+      {
+          put_pixel(mMainSurface, ix, iy, &wallpixel);
+      }
+}
+
+void draw_left_lower_wall(pixel * wallpixel)
+{
+  for(int ix = 0; ix < 16; ix++)
+      for(int iy = 68; iy < 127 ; iy++)
+      {
+          put_pixel(mMainSurface, ix, iy, &wallpixel);
+      }
+}
+
 int main( int argc, char* args[] )
 {
-    pixel mpixel;
-    mpixel.r = (Uint8)0x00;
-    mpixel.g = (Uint8)0xff;
-    mpixel.b = (Uint8)0xff;
-    mpixel.a = (Uint8)128;
+    pixel background;
+    background.r = (Uint8)0xff;
+    background.g = (Uint8)0xff;
+    background.b = (Uint8)0xff;
+    background.a = (Uint8)128;
 
-    pixel ppixel;
-    ppixel.r = (Uint8)0x00;
-    ppixel.g = (Uint8)0xff;
-    ppixel.b = (Uint8)0x00;
-    ppixel.a = (Uint8)128;
+    pixel wall;
+    wall.r = (Uint8)0xf;
+    wall.g = (Uint8)0x30;
+    wall.b = (Uint8)0x57;
+    wall.a = (Uint8)128;
 
     if( SDL_Init( SDL_INIT_EVERYTHING ) < 0 )
     {
@@ -60,16 +82,8 @@ int main( int argc, char* args[] )
             {
                 SDL_LockSurface(mMainSurface);
 
-                for(int ix = 0; ix < Win_W; ix++)
-                    for(int iy = 0; iy < Win_H; iy++)
-                    {
-                      if(iy < 50)
-                        put_pixel(mMainSurface, ix, iy, &mpixel);
-                      else
-                        put_pixel(mMainSurface, ix, iy, &ppixel);
-
-                    }
-
+                draw_left_upper_wall(&wall);
+                draw_left_lower_wall(&wall);
 
 
                 SDL_UnlockSurface(mMainSurface);
