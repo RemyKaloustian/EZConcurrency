@@ -49,6 +49,18 @@ void draw_left_lower_wall(pixel * wallpixel)
       }
 }
 
+
+void draw_right_lower_wall(pixel * wallpixel)
+{
+  for(int ix = 112; ix < 127; ix++)
+      for(int iy = 72; iy < 127 ; iy++)
+      {
+          put_pixel(mMainSurface, ix, iy, &wallpixel);
+      }
+}
+
+
+
 int main( int argc, char* args[] )
 {
     pixel background;
@@ -84,7 +96,7 @@ int main( int argc, char* args[] )
 
                 draw_left_upper_wall(&wall);
                 draw_left_lower_wall(&wall);
-
+                draw_right_lower_wall(&wall);
 
                 SDL_UnlockSurface(mMainSurface);
 
