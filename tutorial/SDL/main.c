@@ -31,39 +31,11 @@ void put_pixel(SDL_Surface* surf, int x,int y,pixel* p)
     *p_screen = SDL_MapRGBA(surf->format,p->r,p->g,p->b,p->a);
 }
 
-void draw_left_upper_wall(pixel * wallpixel)
+//Draws a wall
+void draw_wall(pixel* wallpixel, int x_init, int x_limit, int y_init, int y_limit)
 {
-  for(int ix = 0; ix < 16; ix++)
-      for(int iy = 0; iy < 60 ; iy++)
-      {
-          put_pixel(mMainSurface, ix, iy, &wallpixel);
-      }
-}
-
-void draw_left_lower_wall(pixel * wallpixel)
-{
-  for(int ix = 0; ix < 16; ix++)
-      for(int iy = 68; iy < 127 ; iy++)
-      {
-          put_pixel(mMainSurface, ix, iy, &wallpixel);
-      }
-}
-
-
-void draw_right_lower_wall(pixel * wallpixel)
-{
-  for(int ix = 112; ix < 127; ix++)
-      for(int iy = 72; iy < 127 ; iy++)
-      {
-          put_pixel(mMainSurface, ix, iy, &wallpixel);
-      }
-}
-
-
-void draw_right_upper_wall(pixel * wallpixel)
-{
-  for(int ix = 112; ix < 127; ix++)
-      for(int iy = 0; iy < 56 ; iy++)
+  for(int ix = x_init; ix < x_limit; ix++)
+      for(int iy = y_init; iy < y_limit ; iy++)
       {
           put_pixel(mMainSurface, ix, iy, &wallpixel);
       }
@@ -80,7 +52,7 @@ int main( int argc, char* args[] )
     background.a = (Uint8)128;
 
     pixel wall;
-    wall.r = (Uint8)0xf;
+    wall.r = (Uint8)0x0f;
     wall.g = (Uint8)0x30;
     wall.b = (Uint8)0x57;
     wall.a = (Uint8)128;
@@ -104,10 +76,14 @@ int main( int argc, char* args[] )
             {
                 SDL_LockSurface(mMainSurface);
 
-                draw_left_upper_wall(&wall);
-                draw_left_lower_wall(&wall);
-                draw_right_lower_wall(&wall);
-                draw_right_upper_wall(&wall);
+                //draw_left_upper_wall(&wall);
+                draw_wall(&wall,0,16,0,60);
+                //draw_left_lower_wall(&wall);
+                draw_wall(&wall,0,16,67,127);
+                //draw_right_lower_wall(&wall);
+                draw_wall(&wall,111,127,0,55);
+                //draw_right_upper_wall(&wall);
+                draw_wall(&wall,111,127,71,127 );
                 SDL_UnlockSurface(mMainSurface);
 
                 SDL_UpdateWindowSurface( mWindow );
