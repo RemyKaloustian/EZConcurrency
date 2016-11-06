@@ -8,14 +8,9 @@ SDL_Surface *mMainSurface;
 
 int quit;
 SDL_Event event;
-//SDL_PollEvent(&event);
 
-const int Win_W = 512   ;
+const int Win_W = 512;
 const int Win_H = 128;
-
-
-
-
 
 typedef struct {
     Uint8 r;
@@ -41,7 +36,16 @@ void draw_wall(pixel* wallpixel, int x_init, int x_limit, int y_init, int y_limi
       }
 }
 
-
+void draw_person(pixel * person, int _x, int _y )
+{
+  for (size_t ix = _x; ix > _x-3; ix--)
+  {
+    for (size_t iy = _y; iy < _y+3; iy++)
+    {
+      put_pixel(mMainSurface, ix, iy, &person);
+    }
+  }
+}
 
 int main( int argc, char* args[] )
 {
@@ -55,6 +59,12 @@ int main( int argc, char* args[] )
     wall.r = (Uint8)0x0f;
     wall.g = (Uint8)0x30;
     wall.b = (Uint8)0x57;
+    wall.a = (Uint8)128;
+
+    pixel person;
+    wall.r = (Uint8)0xff;
+    wall.g = (Uint8)0xff;
+    wall.b = (Uint8)0xff;
     wall.a = (Uint8)128;
 
     if( SDL_Init( SDL_INIT_EVERYTHING ) < 0 )
@@ -76,14 +86,12 @@ int main( int argc, char* args[] )
             {
                 SDL_LockSurface(mMainSurface);
 
-                //draw_left_upper_wall(&wall);
                 draw_wall(&wall,0,16,0,60);
-                //draw_left_lower_wall(&wall);
                 draw_wall(&wall,0,16,67,127);
-                //draw_right_lower_wall(&wall);
                 draw_wall(&wall,111,127,0,55);
-                //draw_right_upper_wall(&wall);
                 draw_wall(&wall,111,127,71,127 );
+
+                draw_person(&person, 400,100);
                 SDL_UnlockSurface(mMainSurface);
 
                 SDL_UpdateWindowSurface( mWindow );
