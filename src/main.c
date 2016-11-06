@@ -109,7 +109,7 @@ main(int argc, char *argv[]) {
         printf("%d %d %f %f \n",execut.version, execut.nb_people, (float) ((t_end - t_begin)*1000)/CLOCKS_PER_SEC , duration*0.001);
         #endif
     }
-    affic_grid(&map);
+    //affic_grid(&map);
 // fin options
     return 0;
 }

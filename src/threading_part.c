@@ -63,7 +63,7 @@ void
 create_threads(grid *map, void*(*funct)(void*)) {
     pthread_t threads[THREADS_MAX];
     memset(threads, 0, THREADS_MAX);
-    affic_grid(map);
+    //affic_grid(map);
     // define all boundarie of these 4 threads. these boundaries will split
     // the map in some piece and restraint the actions of each thread to the proper person.
     struct movement movements[THREADS_MAX] = {{map, 0,   256, 0,  64},

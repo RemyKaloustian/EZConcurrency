@@ -30,8 +30,8 @@ elif [ "$1" = "bench_plot" ]; then
     $EXE -t "$j" -p "$i" -m -e 0 >> ./output/data.txt
   done
   done
-  python ./test/graph_analyse.py ./output/data.txt 
+  python ./test/graph_analyse.py ./output/data.txt
 
 else
-  $EXE -t 1 -p 4 -m -e 0
+  $EXE -t 1 -p 2 -m -e 1
 fi

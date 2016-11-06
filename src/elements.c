@@ -75,7 +75,7 @@ init_grid(grid *my_grid, int width, int height) {
 }
 
 int  is_available_coords(grid *my_grid, int x, int y) {
-    for (int i = y; i < y + DEFAULT_PEOPLE_SIZE; i++) {
+    for (int i = y; i < y + DEFAULT_PEOPLE_SIZE-1; i++) {
         for (int j = x; j > x - DEFAULT_PEOPLE_SIZE; j--) {
             if (my_grid->matrix[i][j].content != EMPTY) {
                 return 1;
@@ -103,12 +103,12 @@ random_populate_grid(grid *my_grid, int people) {
             //Setting the coordinates
             x = rand() % (max_x - min_x + 1) + min_x;
             y = rand() % (max_y - min_y + 1) + min_y;
-        }while(is_available_coords(my_grid, x, y) && x > 0 && y > 0);
+        }while(is_available_coords(my_grid, x, y) && x > 12 && y > 0);
         // fill the grid with ew value
         my_grid->population[i].x = x;
         my_grid->population[i].y = y;
         my_grid->population[i].current_status = AVAILABLE;
-        // put entity On the grid ! 
+        // put entity On the grid !
         draw_entity(my_grid,x, y);
     }
 }

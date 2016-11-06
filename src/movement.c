@@ -8,7 +8,7 @@
 #define MAX_FINAL_Y 67
 #define NB_DIRECTION 3
 #define X_LIMITE 15
-
+#define DIRECTION 3
 grid * Map;
 void sighandler(int signo)
 {
@@ -38,24 +38,28 @@ enum Direction {
 void make_choice(enum Direction *choice, person *current) {
     int y = current->y;
     if (y < MIN_FINAL_Y) {
+//        printf("y < MIN_FINAL_Y\n");
         choice[0] = SO;
         choice[1] = O;
         choice[2] = S;
     } else if (y > MAX_FINAL_Y) {
+//      printf("y > MAX_FINAL_Y\n");
         choice[0] = NO;
         choice[1] = O;
         choice[2] = N;
     } else {
         //printf("take defautl x:%d y:%d\n", current->x, current->y);
         choice[0] = O;
-        if ((y - DEFAULT_GRID_HEIGHT / 2) < 0) {
+        if ((y - (DEFAULT_GRID_HEIGHT / 2)) < 0) {
+  //        printf("y - (DEFAULT_GRID_HEIGHT / 2)) < 0\n");
             choice[1] = SO;
             choice[2] = S;
-        } else if ((y - DEFAULT_GRID_HEIGHT / 2) > 0) {
+        } else if ((y + (DEFAULT_GRID_HEIGHT / 2)) > 0) {
+    //      printf("y + (DEFAULT_GRID_HEIGHT / 2)) < 0\n");
             choice[1] = NO;
             choice[2] = N;
         } else {
-            choice[1] = STOP;
+            choice[1] = O;
             choice[2] = STOP;
         }
     }
@@ -63,7 +67,7 @@ void make_choice(enum Direction *choice, person *current) {
 
 int is_done(person *persons, int nb) {
     for (int i = 0; i < nb; ++i) {
-        if (persons[i].x >= X_LIMITE) {
+        if (persons[i].x > X_LIMITE) {
 #ifdef DEBUG
            printf("x:%d y:%d still alive %d \n", persons[i].x, persons[i].y, persons[i].it_alive);
 #endif
@@ -77,7 +81,6 @@ int check_done(grid *grid, person *p) {
     if (p->x <= X_FINAL) {
         p->current_status = DONE;
         delete_entity(grid, p->x, p->y);
-        //affic_grid(grid);
         return 1;
     }
     return 0;
@@ -87,6 +90,8 @@ int check_done(grid *grid, person *p) {
 void *automata_movement(void *param_ptr_data) {
     struct movement *ptr_data = param_ptr_data;
     signal(SIGINT, sighandler);
+    Map = ptr_data->ptr_grid;
+
 #ifdef DEBUG
     signal(SIGINT, sighandler);
     Map = ptr_data->ptr_grid;
@@ -98,7 +103,7 @@ void *automata_movement(void *param_ptr_data) {
         for (int i = 0; i < ptr_data->ptr_grid->people; ++i) {
             // if the person is into the bound of the processus and he's not finished Them :
             if (is_in_bounds(&ptr_data->ptr_grid->population[i], ptr_data)
-                && ptr_data->ptr_grid->population[i].x >= 15) {
+                && ptr_data->ptr_grid->population[i].current_status != DONE) {
 #ifdef DEBUG
                 printf("processus : %d %d %d %d manage x:%d y:%d: \n",
                        ptr_data->left_bound, ptr_data->top_bound,
@@ -115,10 +120,7 @@ void *automata_movement(void *param_ptr_data) {
 
 #endif
                 move_person(ptr_data->ptr_grid, &ptr_data->ptr_grid->population[i]);
-#ifdef DEBUG
-                printf("after move \n");
-                printf("x = %d y = %d \n", ptr_data->ptr_grid->population[i].x, ptr_data->ptr_grid->population[i].y);
-#endif
+
                        //ptr_data->ptr_grid->population[i].y);
                 if (!check_done(ptr_data->ptr_grid, &ptr_data->ptr_grid->population[i])) {
 
@@ -135,6 +137,11 @@ void *automata_movement(void *param_ptr_data) {
             }
             else if (ptr_data->ptr_grid->population[i].x <= 15){
                 ptr_data->ptr_grid->population[i].current_status = DONE;
+            }
+            else{
+#ifdef DEBUG
+              printf("Not In Nound for %d %d %d %d\n", ptr_data->bottom_bound, ptr_data->left_bound, ptr_data->right_bound, ptr_data->top_bound);
+#endif
             }
         }
     }
@@ -172,19 +179,20 @@ void *automata_movement(void *param_ptr_data) {
         y = y - 1;
 
         for (int j = x; j < x - DEFAULT_PEOPLE_SIZE; j--) {
-            if (map->matrix[y][j].content == WALL) {
+            if (map->matrix[y][j].content != EMPTY ) {
                 return 0;
-
             }
+
         }
         return 1;
     }
 
     int check_left(grid *map, int x, int y) {
         x = x - DEFAULT_PEOPLE_SIZE;
-        for (int j = y; j < y + DEFAULT_PEOPLE_SIZE; j++) {
-            if (map->matrix[j][x].content == WALL) {
-                return 0;
+        for (int j = y; j <= y + DEFAULT_PEOPLE_SIZE; j++) {
+            if (map->matrix[j][x].content != EMPTY) {
+              //printf("item on : x:%d y:%d value : %d\n", x, j, map->matrix[j][x].content );
+              return 0;
             }
         }
         return 1;
@@ -194,39 +202,39 @@ void *automata_movement(void *param_ptr_data) {
         int _y = y - 1;
         int _x = x - DEFAULT_PEOPLE_SIZE;
         if (y < 1)return 0;
-        return (check_up(map, x, y) && check_left(map, x, y) && map->matrix[_y][_x].content != WALL);
+        return (check_up(map, x, y) && check_left(map, x, y) && map->matrix[_y][_x].content == EMPTY);
     }
 
     int check_down_left(grid *map, int x, int y) {
         int _y = y + DEFAULT_PEOPLE_SIZE;
         int _x = x - DEFAULT_PEOPLE_SIZE;
         if (y < 1)return 0;
-        return (check_up(map, x, y) && check_left(map, x, y) && map->matrix[_y][_x].content != WALL);
+        return (check_up(map, x, y) && check_left(map, x, y) && map->matrix[_y][_x].content == EMPTY);
     }
 
 
     void move_person(grid * ptr_grid, person *current_person) {
-        int i = 0;
         enum Direction direction[NB_DIRECTION + 1];
         memset(direction, 0, NB_DIRECTION + 1);
         make_choice(direction, current_person);
         delete_entity(ptr_grid, current_person->x, current_person->y);
-        while (direction[i] != 0) {
+        for (size_t i = 0; i < DIRECTION +1; i++) {
 #ifdef DEBUG
-          printf("je prend la direction : %d\n", direction[i]);
+         printf(" DIRECTION : %d i = %d \n", direction[i], i);
 #endif
-            switch (direction[i++]) {
+          switch (direction[i]) {
                 case STOP:
+                  printf("STOP case ! \n");
                     return;
                 case O:
                     if (check_left(ptr_grid, current_person->x, current_person->y)) {
-#ifdef DEBUG
+                        #ifdef DEBUG
                         printf("Ouest\n");
-
-#endif
+                        #endif
                         current_person->x--;
                         return;
                     }
+                    //printf("fail to go to Ouest , x:%d, y:%d \n",current_person->x, current_person->y);
                     break;
 
                 case NO:
@@ -234,12 +242,13 @@ void *automata_movement(void *param_ptr_data) {
 #ifdef DEBUG
                         printf("NO\n");
 #endif
-//                        delete_entity(ptr_grid, current_person->x, current_person->y);
                         current_person->x--;
                         current_person->y--;
 
                         return;
                     }
+                    //printf("fail to go to NO : %d , x:%d, y:%d \n", check_left(ptr_grid, current_person->x, current_person->y), current_person->x, current_person->y);
+
                     break;
                 case SO:
 #ifdef DEBUG
@@ -253,35 +262,41 @@ void *automata_movement(void *param_ptr_data) {
 
                         return;
                     }
+                    //printf("fail to go to SO : %d , x:%d, y:%d \n", check_left(ptr_grid, current_person->x, current_person->y), current_person->x, current_person->y);
+
                     break;
                 case N:
                     if (check_up(ptr_grid, current_person->x, current_person->y)) {
 #ifdef DEBUG
                         printf("N\n");
-
 #endif
                         //delete_entity(ptr_grid, current_person->x, current_person->y);
                         current_person->y--;
-
                         return;
                     }
+                    //printf("fail to go to N : %d , x:%d, y:%d \n", check_left(ptr_grid, current_person->x, current_person->y), current_person->x, current_person->y);
+
                     break;
                 case S:
                     if (check_down(ptr_grid, current_person->x, current_person->y)) {
-#ifdef DEBUG
-                        printf("S\n");
-
-#endif
                         //delete_entity(ptr_grid, current_person->x, current_person->y);
                         current_person->y++;
-
                         return;
 
                     }
+                    //printf("fail to go to S : %d , x:%d, y:%d \n", check_left(ptr_grid, current_person->x, current_person->y), current_person->x, current_person->y);
+
                     break;
+
+                    default:
+                      fprintf(stderr, "i don't know \n");
+                      exit(10);
             }
+            //printf("other direction \n");
 
         }
+      //  printf("no mouvement, x:%d, y:%d \n", current_person->x, current_person->y);
+
 
 //First we check if the place we wanna go is free, if not checking other places.
 //Changing the person coordinates
