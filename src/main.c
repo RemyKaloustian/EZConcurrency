@@ -26,6 +26,12 @@
 /*we need pointer, because arguments for function are by copy in C */
 /*we will loose space&time without pointer */
 #define VERSION_MAX 2
+
+//Debug of negative values
+
+struct timeval remy_start;
+struct timeval remy_end;
+
 double get_user_time(){
     struct timeval time;
     if (gettimeofday(&time, NULL)){
@@ -37,6 +43,10 @@ double get_user_time(){
 // Manage opt given by user.
 int
 main(int argc, char *argv[]) {
+  remy_start.tv_usec = 0;
+  remy_end.tv_usec = 0;
+
+
     struct execution execut = {0, 0, 0, 0, 0};
     /* iteration on argv with utilisation of get_opt library */
 // the map structure
@@ -46,6 +56,9 @@ main(int argc, char *argv[]) {
     double start,  duration;
 
     char c = 0;
+    //Debug of negative values
+    gettimeofday(&remy_start, NULL);
+
     start = get_user_time();
     // nb_threads filled by user with opt -p
     // initialisation de la grille
@@ -59,7 +72,9 @@ main(int argc, char *argv[]) {
                 break;
             case 'p':
                 // filling randomly the grid
-                execut.nb_people = pow (2, atoi (optarg));
+                //execut.nb_people = pow (2, atoi (optarg));
+                execut.nb_people = 256;
+
                 random_populate_grid(&map, execut.nb_people);
                 if (!optarg) {
                     fprintf(stderr, "-p need a parameter !\n");
@@ -102,9 +117,15 @@ main(int argc, char *argv[]) {
     // show time taken to the execution of the game.
     if (execut.show_time) {
         time_t t_end = clock();
+
+        //Debug negative values
+        gettimeofday(&remy_end, NULL);
+        long remy_bebe = (remy_end.tv_sec*1e6 + remy_end.tv_usec) - (remy_start.tv_sec*1e6 + remy_start.tv_usec);
         duration = (  ((double) get_user_time()) - start);
         #ifndef PLOT
-        fprintf(stdout, "version :%d  people :%d  cpu :%f user :%f \n",execut.version, execut.nb_people, (float) ((t_end - t_begin)*1000)/CLOCKS_PER_SEC , duration*0.001);
+        //fprintf(stdout, "version :%d  people :%d  cpu :%f user :%f \n",execut.version, execut.nb_people, (float) ((t_end - t_begin)*1000)/CLOCKS_PER_SEC , duration*0.001);
+        fprintf(stdout, "version :%d  people :%d  cpu :%f user :%d \n",execut.version, execut.nb_people,(float) ((t_end - t_begin)*1000)/CLOCKS_PER_SEC,remy_bebe );
+
         #else
         printf("%d %d %f %f \n",execut.version, execut.nb_people, (float) ((t_end - t_begin)*1000)/CLOCKS_PER_SEC , duration*0.001);
         #endif
