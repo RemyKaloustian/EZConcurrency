@@ -44,11 +44,14 @@ for v in dico['2']:
 
 plt.xlabel('nombre personne')
 plt.ylabel('temps (ms)')
+plt.yscale('log')
+#plt.xscale('log')
 
-plt.plot(absisse,tpCPU0, "b", linewidth=0.8, marker="*", label="USER_0")
-plt.plot(absisse,tpUSER0, "r", linewidth=0.8, marker="*", label="CPU_0" )
 
-plt.plot(absisse,tpCPU1, label="version_1", color="yellow" )
+plt.plot(absisse,tpCPU0, label="USER_0", color="blue")
+plt.plot(absisse,tpUSER0, label="CPU_0", color="red" )
+
+plt.plot(absisse,tpCPU1, label="version_1", color="gold" )
 plt.plot(absisse,tpUSER1, label="version_1", color="green" )
 #
 plt.plot(absisse,tpCPU2, label="version_2", color="black" )

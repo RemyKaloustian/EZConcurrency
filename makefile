@@ -4,10 +4,9 @@
 # author : @CésarCOllé 		#
 #   19/09/2016              #
 #############################
-
 DEBUG=$(ARG)
 COMP=gcc
-FLAGS=-Wall -pthread -lm -std=c99 $(DEBUG)
+FLAGS=-Wall -pthread -lm -std=c99 $(DEBUG) -O3
 DSRC=src/
 DOBJ=bin/
 DINC=inc/

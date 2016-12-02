@@ -25,11 +25,18 @@
 #include "../inc/designer.h"
 #include "../inc/threading_part.h"
 
+#include <unistd.h>
+#include <sys/ipc.h>
+#include <sys/sem.h>
+#include <semaphore.h>
+
 /*
 *manage the partitionning of the map by the threads
 * Assuming we bouhnd the part of thread on all the map .
 **/
 pthread_t single_thread;
+sem_t terminaison;
+sem_t mutex_multiple;
 
 void
 create_single_thread(grid *map, void*(*funct)(void*)) {
@@ -59,6 +66,7 @@ create_single_thread(grid *map, void*(*funct)(void*)) {
  *
  * */
 
+
 void
 create_threads(grid *map, void*(*funct)(void*)) {
     pthread_t threads[THREADS_MAX];
@@ -72,6 +80,7 @@ create_threads(grid *map, void*(*funct)(void*)) {
                                               {map, 256, 512, 65, 128}};
 
     // create THREADS_MAX = 4 threads
+    sem_init(&terminaison, 0, 0);
     for (size_t i = 0; i < THREADS_MAX; i++) {
         // throw the automata_movement
         if (pthread_create(&threads[i], NULL, *funct, &movements[i])) {
@@ -79,11 +88,9 @@ create_threads(grid *map, void*(*funct)(void*)) {
             exit(6);
         }
     }
-    for (size_t j = 0; j < THREADS_MAX; ++j) {
-        if (pthread_join(threads[j], NULL)) {
-            fprintf(stderr, "Error joining thread \n");
-            exit(5);
-        }
+
+    for (size_t i = 0; i < THREADS_MAX; i++) {
+      sem_wait(&terminaison);
     }
 }
 
@@ -93,6 +100,8 @@ void multiple_threads(grid *map, void*(*funct)(void*)) {
     pthread_t pthreads[size_threads];
     struct multiple_movement *move;
     memset(pthreads, 0, size_threads);
+    sem_init(&terminaison,  0, 0);
+    sem_init(&mutex_multiple, 0, 1);
     for (int i = 0; i < size_threads; ++i) {
         move = calloc(1, sizeof(struct multiple_movement));
         move->map = map;
@@ -102,11 +111,7 @@ void multiple_threads(grid *map, void*(*funct)(void*)) {
             exit(0);
         }
     }
-    for (size_t j = 0; j < size_threads; ++j) {
-        if (pthread_join(pthreads[j], NULL)) {
-            fprintf(stderr, "Error joining thread \n");
-            exit(5);
-        }
+    for (size_t i = 0; i < size_threads; i++) {
+      sem_wait(&terminaison);
     }
-
 }

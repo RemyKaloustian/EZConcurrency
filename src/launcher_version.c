@@ -25,7 +25,7 @@ void launch_version(struct execution *ptr_execut, grid *map);
 
 void * (*launcher[VERSION][VERSION])(void *)  =
 {{&automata_movement,&automata_movement,&multiple_movement },
- {&automata_movement,&automata_synchronized_sem,&multiple_movement },
+ {&automata_movement,&automata_synchronized_sem,&multple_synchronized_sem },
 {0, 0, 0}};
 
 

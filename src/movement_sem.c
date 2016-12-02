@@ -11,9 +11,12 @@
 
 #include<signal.h>
 
-static sem_t mutex;
-
 grid *Map;
+
+sem_t mutex;
+
+extern sem_t terminaison;
+
 
 void sighandler_sem(int signo) {
     fflush(stdout);
@@ -31,8 +34,6 @@ void *automata_synchronized_sem(void *param_ptr_data) {
     struct movement *ptr_data = param_ptr_data;
     //printf("%d\n", SIGINT);
     //Map = ptr_data->ptr_grid;
-    int cpt = 0;
-
 #ifndef DEBUG
   signal(SIGINT, sighandler_sem);
     Map = ptr_data->ptr_grid;
@@ -68,6 +69,7 @@ void *automata_synchronized_sem(void *param_ptr_data) {
             sem_post(&mutex);
         }
     }
+    sem_post(&terminaison);
     return NULL;
 }
 

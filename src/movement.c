@@ -177,9 +177,8 @@ void *automata_movement(void *param_ptr_data) {
             return 0;
         }
         y = y - 1;
-
         for (int j = x; j < x - DEFAULT_PEOPLE_SIZE; j--) {
-            if (map->matrix[y][j].content != EMPTY ) {
+            if (map->matrix[y][j].content == WALL ) {
                 return 0;
             }
 
@@ -189,9 +188,10 @@ void *automata_movement(void *param_ptr_data) {
 
     int check_left(grid *map, int x, int y) {
         x = x - DEFAULT_PEOPLE_SIZE;
-        for (int j = y; j <= y + DEFAULT_PEOPLE_SIZE; j++) {
-            if (map->matrix[j][x].content != EMPTY) {
-              //printf("item on : x:%d y:%d value : %d\n", x, j, map->matrix[j][x].content );
+        int limite = 0;
+        (y > DEFAULT_GRID_HEIGHT - DEFAULT_PEOPLE_SIZE)?(limite = 0):(limite = 1);
+        for (int j = y; j <= y + DEFAULT_PEOPLE_SIZE - limite; j++) {
+            if (map->matrix[j][x].content == WALL) {
               return 0;
             }
         }
