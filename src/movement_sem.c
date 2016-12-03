@@ -8,7 +8,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../inc/designer.h"
+
+#define UI 1
+
+#ifdef UI
 #include "../inc/UITools.h"
+#endif
 
 #include<signal.h>
 
@@ -18,7 +23,7 @@ sem_t mutex;
 
 extern sem_t terminaison;
 
-int nb_move = 0;
+int nb_move = 0; //for the smooth movement
 
 
 void sighandler_sem(int signo) {
@@ -47,15 +52,16 @@ void *automata_synchronized_sem(void *param_ptr_data) {
 
     while (is_done(ptr_data->ptr_grid->population, ptr_data->ptr_grid->people)) {
         for (int i = 0; i < ptr_data->ptr_grid->people; ++i) {
-          UI_update();
 
+#ifdef UI
+          UI_update();
+          //For smooth movement
           if(nb_move > 1000)
           {
              UI_reset();
             nb_move = 0;
           }
-
-
+#endif
             if (is_in_bounds(&ptr_data->ptr_grid->population[i], ptr_data)
                 && ptr_data->ptr_grid->population[i].x > 15) {
 
@@ -67,6 +73,7 @@ void *automata_synchronized_sem(void *param_ptr_data) {
 #endif
                 sem_wait(&mutex);
                 move_person(ptr_data->ptr_grid, &ptr_data->ptr_grid->population[i]);
+#ifdef UI
                 nb_move++;
                 //MOVING THE PERSON WITH SDL
                 //sleep(1);
@@ -83,7 +90,7 @@ void *automata_synchronized_sem(void *param_ptr_data) {
                       return 0;
                   }
                 }
-
+#endif
 
 #ifdef DEBUG
                 printf("\nafter move \n");

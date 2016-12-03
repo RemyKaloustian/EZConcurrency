@@ -17,17 +17,22 @@
 #include <stdlib.h>
 #include <sys/time.h>
 //#include <SDL2/SDL.h> //need to install sdl : sudo apt-get install libsdl2-dev
+#define UI 1
 
 
 #include "../inc/elements.h"
 #include "../inc/launcher_version.h"
 #include "../inc/designer.h"
+
+#ifdef UI
 #include "../inc/UITools.h"
+#endif
 
 // we assume to put opt script on Main function like other Linux's program do.
 /*we need pointer, because arguments for function are by copy in C */
 /*we will loose space&time without pointer */
 #define VERSION_MAX 2
+
 
 
 struct timeval time_start;
@@ -52,8 +57,10 @@ int
 main(int argc, char *argv[]) {
 
   //SDL_Init
+#ifdef UI
+    UI_Init();
+#endif
 
-  UI_Init();
     struct execution execut = {0, 0, 0, 0, 0};
     time_start.tv_usec = 0;
     time_end.tv_usec = 0;

@@ -1,7 +1,6 @@
 #ifndef UITOOLS_H
 #define UITOOLS_H
 
-
 #include <SDL2/SDL.h> //need to install sdl : sudo apt-get install libsdl2-dev
 extern SDL_Window *mWindow;
 extern SDL_Surface *mMainSurface;
