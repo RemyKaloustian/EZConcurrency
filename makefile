@@ -6,17 +6,17 @@
 #############################
 DEBUG=$(ARG)
 COMP=gcc
-FLAGS=-Wall -pthread -lm -std=c99 $(DEBUG) -O3
+FLAGS=-Wall -pthread  -lm  -std=c99 $(DEBUG) -O3
 DSRC=src/
 DOBJ=bin/
 DINC=inc/
 EXECUTABLE=$(DOBJ)executable.exe
 
-OBJ=$(DOBJ)elements.o $(DOBJ)main.o $(DOBJ)launcher_version.o $(DOBJ)threading_part.o $(DOBJ)/movement.o \
-$(DOBJ)multiple_threads.o $(DOBJ)designer.o $(DOBJ)movement_sem.o
+OBJ=$(DOBJ)elements.o $(DOBJ)main.o $(DOBJ)launcher_version.o $(DOBJ)threading_part.o  $(DOBJ)/movement.o \
+$(DOBJ)multiple_threads.o $(DOBJ)designer.o $(DOBJ)movement_sem.o $(DOBJ)UITools.o
 
 $(EXECUTABLE):$(OBJ)
-	$(COMP) $(FLAGS) $(OBJ) -o $(EXECUTABLE)
+	$(COMP) $(FLAGS) $(OBJ) -o $(EXECUTABLE) -lSDL2-2.0
 
 $(DOBJ)main.o:$(DSRC)main.c
 	$(COMP) $(FLAGS) -c $< -o $@
@@ -41,6 +41,10 @@ $(DOBJ)designer.o:$(DSRC)designer.c
 
 $(DOBJ)movement_sem.o:$(DSRC)movement_sem.c
 	$(COMP) $(FLAGS) -c $< -o $@ -pthread
+
+$(DOBJ)UITools.o:$(DSRC)UITools.c $(DINC)UITools.h
+	$(COMP) $(FLAGS) -c $< -o $@ -pthread
+
 
 clean:
 	rm -f ./src/*~ ./bin/*.o ./*~ ./inc/*~ ./bin/*.exe
