@@ -80,8 +80,8 @@ main(int argc, char *argv[]) {
             case 'p':
                 // filling randomly the grid
                 //execut.nb_people = pow (2, atoi (optarg));
-                execut.nb_people = 4;
-                
+                execut.nb_people = 256;
+
                 random_populate_grid(&map, execut.nb_people);
                 if (!optarg) {
                     fprintf(stderr, "-p need a parameter !\n");

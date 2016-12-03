@@ -18,6 +18,8 @@ sem_t mutex;
 
 extern sem_t terminaison;
 
+int nb_move = 0;
+
 
 void sighandler_sem(int signo) {
     fflush(stdout);
@@ -42,8 +44,18 @@ void *automata_synchronized_sem(void *param_ptr_data) {
     Map = ptr_data->ptr_grid;
 #endif
     sem_init(&mutex, 0, 1);
+
     while (is_done(ptr_data->ptr_grid->population, ptr_data->ptr_grid->people)) {
         for (int i = 0; i < ptr_data->ptr_grid->people; ++i) {
+          UI_update();
+
+          if(nb_move > 1000)
+          {
+             UI_reset();
+            nb_move = 0;
+          }
+
+
             if (is_in_bounds(&ptr_data->ptr_grid->population[i], ptr_data)
                 && ptr_data->ptr_grid->population[i].x > 15) {
 
@@ -55,13 +67,15 @@ void *automata_synchronized_sem(void *param_ptr_data) {
 #endif
                 sem_wait(&mutex);
                 move_person(ptr_data->ptr_grid, &ptr_data->ptr_grid->population[i]);
+                nb_move++;
                 //MOVING THE PERSON WITH SDL
                 //sleep(1);
-                usleep(50000);
-                UI_reset();
+                //usleep(5);
                 UI_draw_walls();
-                UI_draw_person(&pixel_person,ptr_data->ptr_grid->population[i].x,ptr_data->ptr_grid->population[i].y);
-                UI_update();
+                for (int j = 0; j < ptr_data->ptr_grid->people; ++j) {
+                  UI_draw_person(&pixel_person,ptr_data->ptr_grid->population[j].x,ptr_data->ptr_grid->population[j].y);
+
+                }
 
                 if(SDL_PollEvent(&event)){
                   switch(event.type){
@@ -86,6 +100,7 @@ void *automata_synchronized_sem(void *param_ptr_data) {
                 }
             }
             sem_post(&mutex);
+
         }
     }
     sem_post(&terminaison);

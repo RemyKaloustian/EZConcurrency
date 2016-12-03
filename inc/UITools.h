@@ -36,7 +36,7 @@ void UI_draw_person(pixel* person, int _x, int _y );
 
 
 //Initialise les pixels
-void init_pixels_because_ce_SDL_de_mes_couilles_veut_pas_le_faire_a_l_exterieur();
+void init_pixels();
 
 
 //Initialise la fenêtre
