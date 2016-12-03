@@ -20,13 +20,11 @@ void release(struct monitor * ptr_monitor){
 
 
 
-struct monitor * initialisation_moniteur(struct monitor * ptr){
-  //ptr->mutex_monitor = PTHREAD_MUTEX_INITIALIZER;
+void initialisation_moniteur(struct monitor * ptr){
   ptr->mutex_monitor=(pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
   pthread_mutex_t lock  ;
   ptr->get = get;
   ptr->release = release;
-  return ptr;
 }
 
 void destroy_monitor(struct monitor *ptr_monitor){

@@ -16,4 +16,5 @@ struct multiple_movement{
 void * multiple_movement(void*);
 
 void * multple_synchronized_sem(void * data);
+void * multple_synchronized_monitor(void * data);
 #endif //EZCONCURRENCY_MULTIPLE_THREADS_C_H
