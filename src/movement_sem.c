@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../inc/designer.h"
+#include "../inc/UITools.h"
 
 #include<signal.h>
 
@@ -31,6 +32,8 @@ void sighandler_sem(int signo) {
 
 
 void *automata_synchronized_sem(void *param_ptr_data) {
+
+
     struct movement *ptr_data = param_ptr_data;
     //printf("%d\n", SIGINT);
     //Map = ptr_data->ptr_grid;
@@ -52,6 +55,22 @@ void *automata_synchronized_sem(void *param_ptr_data) {
 #endif
                 sem_wait(&mutex);
                 move_person(ptr_data->ptr_grid, &ptr_data->ptr_grid->population[i]);
+                //MOVING THE PERSON WITH SDL
+                //sleep(1);
+                usleep(50000);
+                UI_reset();
+                UI_draw_walls();
+                UI_draw_person(&pixel_person,ptr_data->ptr_grid->population[i].x,ptr_data->ptr_grid->population[i].y);
+                UI_update();
+
+                if(SDL_PollEvent(&event)){
+                  switch(event.type){
+                    case SDL_QUIT:
+                      return 0;
+                  }
+                }
+
+
 #ifdef DEBUG
                 printf("\nafter move \n");
                 printf("move :x = %d y = %d \n", ptr_data->ptr_grid->population[i].x, ptr_data->ptr_grid->population[i].y);
