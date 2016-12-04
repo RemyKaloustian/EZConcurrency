@@ -40,6 +40,7 @@ void * (*launcher[VERSION][VERSION])(void *)  =
 void launch_version(struct execution *ptr_execut, grid *map) {
     map->people = ptr_execut->nb_people;
     void * (*tmp)(void*) = launcher[ptr_execut->mode][ptr_execut->version];
+
     switch (ptr_execut->version) {
         case 0:
             // launch version 1
@@ -53,5 +54,8 @@ void launch_version(struct execution *ptr_execut, grid *map) {
             multiple_threads(map, tmp);
             // launch version 3
             break;
+        default:
+          perror("erreur version \n");
+          exit(0);
     }
   }

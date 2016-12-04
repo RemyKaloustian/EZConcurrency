@@ -8,8 +8,8 @@
 #include <unistd.h>
 #include<signal.h>
 
-
 extern sem_t terminaison;
+extern struct monitor monitoring;
 grid *Map;
 
 
@@ -24,16 +24,14 @@ void sighandler_monitor(int signo) {
     exit(7);
 }
 
-struct monitor monitoring;
-
 
 void *automata_synchronized_monitor(void *param_ptr_data) {
-    initialisation_moniteur(&monitoring);
     struct movement *ptr_data = param_ptr_data;
 #ifndef DEBUG
   signal(SIGINT, sighandler_monitor);
     Map = ptr_data->ptr_grid;
 #endif
+  int cpt = 0;
     while (is_done(ptr_data->ptr_grid->population, ptr_data->ptr_grid->people)) {
         for (int i = 0; i < ptr_data->ptr_grid->people; ++i) {
             if (is_in_bounds(&ptr_data->ptr_grid->population[i], ptr_data)
@@ -47,13 +45,21 @@ void *automata_synchronized_monitor(void *param_ptr_data) {
 #endif
 // section critique
                 //sem_wait(&mutex);
-                monitoring.get(&monitoring);
+                if (ptr_data->ptr_grid->population[i].y <= 60 || ptr_data->ptr_grid->population[i].y >= 68 ){
+                  monitoring.get(&monitoring);
+                  cpt = 1;
+                }
                 move_person(ptr_data->ptr_grid, &ptr_data->ptr_grid->population[i]);
 #ifdef DEBUG
                 printf("\nafter move \n");
                 printf("move :x = %d y = %d \n", ptr_data->ptr_grid->population[i].x, ptr_data->ptr_grid->population[i].y);
                 printf("realease\n");
 #endif
+                if (cpt){
+                  monitoring.release(&monitoring);
+                  cpt = 0;
+                }
+
                 if (!check_done(ptr_data->ptr_grid, &ptr_data->ptr_grid->population[i])) {
 
                     draw_entity(ptr_data->ptr_grid, ptr_data->ptr_grid->population[i].x,
@@ -63,7 +69,6 @@ void *automata_synchronized_monitor(void *param_ptr_data) {
                     ptr_data->ptr_grid->population[i].current_status = DONE;
                 }
             }
-            monitoring.release(&monitoring);
         }
     }
     sem_post(&terminaison);

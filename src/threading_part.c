@@ -24,6 +24,7 @@
 #include "../inc/multiple_threads.h"
 #include "../inc/designer.h"
 #include "../inc/threading_part.h"
+#include "../inc/monitor.h"
 
 #include <unistd.h>
 #include <sys/ipc.h>
@@ -36,7 +37,9 @@
 **/
 pthread_t single_thread;
 sem_t terminaison;
+sem_t mutex;
 sem_t mutex_multiple;
+struct monitor monitoring;
 
 void
 create_single_thread(grid *map, void*(*funct)(void*)) {
@@ -81,6 +84,8 @@ create_threads(grid *map, void*(*funct)(void*)) {
 
     // create THREADS_MAX = 4 threads
     sem_init(&terminaison, 0, 0);
+    sem_init(&mutex, 0, 1);
+    initialisation_moniteur(&monitoring);
     for (size_t i = 0; i < THREADS_MAX; i++) {
         // throw the automata_movement
         if (pthread_create(&threads[i], NULL, *funct, &movements[i])) {
@@ -100,6 +105,7 @@ void multiple_threads(grid *map, void*(*funct)(void*)) {
     pthread_t pthreads[size_threads];
     struct multiple_movement *move;
     memset(pthreads, 0, size_threads);
+    initialisation_moniteur(&monitoring);
     sem_init(&terminaison,  0, 0);
     sem_init(&mutex_multiple, 0, 1);
     for (int i = 0; i < size_threads; ++i) {

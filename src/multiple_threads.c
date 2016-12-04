@@ -60,7 +60,6 @@ void * multple_synchronized_monitor(void * data){
         move_person(ptr_data->map, current);
         draw_entity(ptr_data->map, current->x, current->y);
         monitoring.release(&monitoring);
-        //sem_post(&mutex_multiple);
     }
     sem_post(&terminaison);
     delete_entity(ptr_data->map, current->x, current->y);

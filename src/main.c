@@ -52,8 +52,9 @@ int
 main(int argc, char *argv[]) {
 
   //SDL_Init
-
+#ifdef GRAPH
   UI_Init();
+#endif
     struct execution execut = {0, 0, 0, 0, 0};
     time_start.tv_usec = 0;
     time_end.tv_usec = 0;
@@ -79,9 +80,9 @@ main(int argc, char *argv[]) {
                 break;
             case 'p':
                 // filling randomly the grid
-                //execut.nb_people = pow (2, atoi (optarg));
-                execut.nb_people = 4;
-                
+                execut.nb_people = pow (2, atoi (optarg));
+                //execut.nb_people = 4;
+
                 random_populate_grid(&map, execut.nb_people);
                 if (!optarg) {
                     fprintf(stderr, "-p need a parameter !\n");
@@ -106,7 +107,6 @@ main(int argc, char *argv[]) {
                 exit(0);
             }
             int mode = atoi(optarg);
-
             if (mode >VERSION_MAX){perror("erreur saisie version");}
             execut.mode = mode;
             break;

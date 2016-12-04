@@ -11,12 +11,14 @@ DSRC=src/
 DOBJ=bin/
 DINC=inc/
 EXECUTABLE=$(DOBJ)executable.exe
+GRAPH=-lSDL2-2.0
+
 
 OBJ=$(DOBJ)elements.o $(DOBJ)main.o $(DOBJ)launcher_version.o $(DOBJ)threading_part.o  $(DOBJ)/movement.o \
-$(DOBJ)multiple_threads.o $(DOBJ)designer.o $(DOBJ)movement_sem.o $(DOBJ)UITools.o $(DOBJ)monitor.o $(DOBJ)movement_monitor.o
+$(DOBJ)multiple_threads.o $(DOBJ)designer.o $(DOBJ)movement_sem.o $(DOBJ)monitor.o $(DOBJ)movement_monitor.o
 
 $(EXECUTABLE):$(OBJ)
-	$(COMP) $(FLAGS) $(OBJ) -o $(EXECUTABLE) -lSDL2-2.0
+	$(COMP) $(FLAGS) $(OBJ) -o $(EXECUTABLE)
 
 $(DOBJ)main.o:$(DSRC)main.c
 	$(COMP) $(FLAGS) -c $< -o $@
@@ -48,8 +50,8 @@ $(DOBJ)monitor.o: $(DSRC)monitor.c
 $(DOBJ)movement_monitor.o:$(DSRC)movement_monitor.c
 	$(COMP) $(FLAGS) -c $< -o $@
 
-$(DOBJ)UITools.o:$(DSRC)UITools.c $(DINC)UITools.h
-	$(COMP) $(FLAGS) -c $< -o $@ -pthread
+# $(DOBJ)UITools.o:$(DSRC)UITools.c $(DINC)UITools.h
+# 	$(COMP) $(FLAGS) -c $< -o $@ -pthread
 
 clean:
 	rm -f ./src/*~ ./bin/*.o ./*~ ./inc/*~ ./bin/*.exe

@@ -6,24 +6,21 @@
 #################################
 EXE="bin/executable.exe"
 echo $1
-
 if [ "$1" = "bench" ]; then
   echo "version 1"
   for i in `seq 0 9`;
   do
   for j in `seq 0 2`;
   do
-    #echo  $EXE -t "$j" -p "$i" -m -e "1"
-    $EXE -t "$j" -p "$i" -m -e "1"
+    $EXE -t "$j" -p "$i" -m -e 2
   done
   done
-
-
-
 elif [ "$1" = "bench_plot" ]; then
+  echo "let's make a bench plot"
   rm -r -f output
   mkdir output
   echo > ./output/data.txt
+  echo "HeHé"
   for i in `seq 0 9`;
   do
   for j in `seq 0 2`;
@@ -35,6 +32,7 @@ elif [ "$1" = "bench_plot" ]; then
 
 else
   PATH_="$(cd "$(dirname "$0")"&&pwd)"/
-  $PATH_$EXE -t 1 -p 2 -m -e 1
+  echo "version 2"
+  $PATH_$EXE -t 1 -p 2 -m -e 2
   #$EXE -t 1 -p 2 -m -e 1
 fi
