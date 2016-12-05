@@ -33,6 +33,6 @@ elif [ "$1" = "bench_plot" ]; then
 else
   PATH_="$(cd "$(dirname "$0")"&&pwd)"/
   echo "version 2"
-  $PATH_$EXE -t 1 -p 2 -m -e 2
+  $PATH_$EXE -t 1 -p 2 -m -e 1
   #$EXE -t 1 -p 2 -m -e 1
 fi
