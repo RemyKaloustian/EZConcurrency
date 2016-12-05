@@ -8,7 +8,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../inc/designer.h"
+
+
+#ifdef UI
 #include "../inc/UITools.h"
+#endif
 
 #include<signal.h>
 
@@ -17,6 +21,8 @@ grid *Map;
 extern sem_t mutex;
 
 extern sem_t terminaison;
+
+int nb_move = 0; //for the smooth movement
 
 
 void sighandler_sem(int signo) {
@@ -42,9 +48,23 @@ void *automata_synchronized_sem(void *param_ptr_data) {
     Map = ptr_data->ptr_grid;
     char pass = 0;
 #endif
+// <<<<<<< HEAD
+// =======
+//     sem_init(&mutex, 0, 1);
+// >>>>>>> ad16df77abcd0df9af5d4376aac93d48f74e0f7a
 
     while (is_done(ptr_data->ptr_grid->population, ptr_data->ptr_grid->people)) {
         for (int i = 0; i < ptr_data->ptr_grid->people; ++i) {
+
+#ifdef UI
+          UI_update();
+          //For smooth movement
+          if(nb_move > 1000)
+          {
+             UI_reset();
+            nb_move = 0;
+          }
+#endif
             if (is_in_bounds(&ptr_data->ptr_grid->population[i], ptr_data)
                 && ptr_data->ptr_grid->population[i].x > 15) {
 
@@ -59,14 +79,17 @@ void *automata_synchronized_sem(void *param_ptr_data) {
                 pass = 1;
               }
                 move_person(ptr_data->ptr_grid, &ptr_data->ptr_grid->population[i]);
+#ifdef UI
+                nb_move++;
                 //MOVING THE PERSON WITH SDL
                 //sleep(1);
-#ifdef GRAPH
                 usleep(50000);
                 UI_reset();
                 UI_draw_walls();
-                UI_draw_person(&pixel_person,ptr_data->ptr_grid->population[i].x,ptr_data->ptr_grid->population[i].y);
-                UI_update();
+                for (int j = 0; j < ptr_data->ptr_grid->people; ++j) {
+                  UI_draw_person(&pixel_person,ptr_data->ptr_grid->population[j].x,ptr_data->ptr_grid->population[j].y);
+
+                }
 
                 if(SDL_PollEvent(&event)){
                   switch(event.type){
@@ -75,7 +98,6 @@ void *automata_synchronized_sem(void *param_ptr_data) {
                   }
                 }
 #endif
-
 
 #ifdef DEBUG
                 printf("\nafter move \n");
@@ -91,7 +113,7 @@ void *automata_synchronized_sem(void *param_ptr_data) {
                     ptr_data->ptr_grid->population[i].current_status = DONE;
                 }
             }
-            if (pass){
+              if (pass){
               sem_post(&mutex);
               pass = 0;
             }

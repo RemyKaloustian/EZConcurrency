@@ -46,7 +46,7 @@ void UI_draw_person(pixel* person, int _x, int _y )
 }
 
 //Initialise les pixels
-void init_pixels_because_ce_SDL_de_mes_couilles_veut_pas_le_faire_a_l_exterieur()
+void init_pixels()
 {
   background.r = (Uint8)0xff;
   background.g = (Uint8)0xff;
@@ -109,9 +109,9 @@ void UI_reset()
   for(int ix = 0; ix < 512; ix++)
       for(int iy = 0; iy < 128 ; iy++)
       {
-        //if(!is_wall(ix,iy))
-        //{
+        if(!is_wall(ix,iy))
+        {
           put_pixel(mMainSurface, ix, iy, &background);
-        //}
+        }
       }
 }

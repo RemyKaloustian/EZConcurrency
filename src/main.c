@@ -17,17 +17,19 @@
 #include <stdlib.h>
 #include <sys/time.h>
 //#include <SDL2/SDL.h> //need to install sdl : sudo apt-get install libsdl2-dev
-
-
 #include "../inc/elements.h"
 #include "../inc/launcher_version.h"
 #include "../inc/designer.h"
+
+#ifdef UI
 #include "../inc/UITools.h"
+#endif
 
 // we assume to put opt script on Main function like other Linux's program do.
 /*we need pointer, because arguments for function are by copy in C */
 /*we will loose space&time without pointer */
 #define VERSION_MAX 2
+
 
 
 struct timeval time_start;
@@ -52,9 +54,10 @@ int
 main(int argc, char *argv[]) {
 
   //SDL_Init
-#ifdef GRAPH
-  UI_Init();
+#ifdef UI
+    UI_Init();
 #endif
+
     struct execution execut = {0, 0, 0, 0, 0};
     time_start.tv_usec = 0;
     time_end.tv_usec = 0;
@@ -81,7 +84,6 @@ main(int argc, char *argv[]) {
             case 'p':
                 // filling randomly the grid
                 execut.nb_people = pow (2, atoi (optarg));
-                //execut.nb_people = 4;
 
                 random_populate_grid(&map, execut.nb_people);
                 if (!optarg) {

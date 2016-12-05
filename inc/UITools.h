@@ -1,7 +1,6 @@
 #ifndef UITOOLS_H
 #define UITOOLS_H
 
-
 #include <SDL2/SDL.h> //need to install sdl : sudo apt-get install libsdl2-dev
 extern SDL_Window *mWindow;
 extern SDL_Surface *mMainSurface;
@@ -36,7 +35,7 @@ void UI_draw_person(pixel* person, int _x, int _y );
 
 
 //Initialise les pixels
-void init_pixels_because_ce_SDL_de_mes_couilles_veut_pas_le_faire_a_l_exterieur();
+void init_pixels();
 
 
 //Initialise la fenêtre
